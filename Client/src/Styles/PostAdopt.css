@@ -1,285 +1,341 @@
 /* Enhanced styling for Post Adopt Form */
-.post-pet-section {
-    text-align: center;
-    padding: 40px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+:root {
+    --primary: #ff8c00;
+    --primary-light: #ffab40;
+    --primary-hover: #e67e00;
+    --secondary: #4e54c8;
+    --secondary-light: #8f94fb;
+    --white: #ffffff;
+    --black: #2c2c2c;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+  
+  .post-pet-section {
+    max-width: 1000px;
     margin: 40px auto;
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
   }
   
-  .post-pet-section h2 {
-    font-family: "Varela Round", sans-serif;
-    padding-bottom: 10px;
-    color: #ff8c00;
-    border-bottom: 2px solid #ff8c00;
+  .form-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    color: white;
+  }
+  
+  .form-icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+  }
+  
+  .form-header h2 {
     font-size: 32px;
-    margin-bottom: 30px;
-    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   }
   
-  .post-pet-section img {
-    max-width: 250px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .post-pet-section p {
-    font-family: "Varela Round", sans-serif;
-    color: #333;
-    font-size: 16px;
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
-  
-  .post-pet-section h3 {
-    font-family: "Varela Round", sans-serif;
-    color: #ff8c00;
-    font-size: 22px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .post-pet-section form {
+  .form-subheading {
+    font-size: 18px;
+    opacity: 0.9;
     max-width: 600px;
     margin: 0 auto;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px;
+  }
+  
+  .form-image {
+    flex: 0 0 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
+  }
+  
+  .form-image img {
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+  }
+  
+  .form-image img:hover {
+    transform: scale(1.05);
+  }
+  
+  .submission-form {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+  }
+  
+  .form-section {
+    background-color: var(--gray-100);
+    padding: 25px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .form-section h3 {
+    color: var(--primary);
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-light);
+  }
+  
+  .input-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
   }
   
   .input-box {
     margin-bottom: 20px;
-    text-align: left;
   }
   
   .input-box label {
-    font-family: "Varela Round", sans-serif;
-    color: #555;
-    font-weight: bold;
     display: block;
     margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--gray-700);
     font-size: 16px;
   }
   
-  .post-pet-section input[type="text"],
-  .post-pet-section input[type="email"],
-  .post-pet-section input[type="tel"],
-  .post-pet-section textarea,
-  .post-pet-section select {
+  .required {
+    color: var(--danger);
+    margin-left: 3px;
+  }
+  
+  .input-box input,
+  .input-box textarea,
+  .input-box select {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
     font-size: 16px;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
+    transition: all 0.3s;
+    background-color: var(--white);
+    color: var(--gray-800);
   }
   
-  .post-pet-section input[type="text"]:focus,
-  .post-pet-section input[type="email"]:focus,
-  .post-pet-section input[type="tel"]:focus,
-  .post-pet-section textarea:focus,
-  .post-pet-section select:focus {
-    border-color: #ff8c00;
+  .input-box input:focus,
+  .input-box textarea:focus,
+  .input-box select:focus {
     outline: none;
+    border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
-    background-color: white;
   }
   
-  .post-pet-section textarea {
+  .type-select {
+    cursor: pointer;
+  }
+  
+  .input-box textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
   }
   
-  .filter-selection-service {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  
-  .filter-selection-service label {
-    font-family: "Varela Round", sans-serif;
-    color: #555;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-    font-size: 16px;
-  }
-  
-  .filter-selection-service select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: #f9f9f9;
-    appearance: menulist;
-    cursor: pointer;
-  }
-  
-  .file-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .file-input-label {
-    display: inline-block;
-    padding: 12px 20px;
-    background-color: #ff8c00;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
+  .file-upload-container {
     margin-top: 10px;
   }
   
-  .file-input-label:hover {
-    background-color: #e67e00;
+  .file-upload-label {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+  }
+  
+  .file-upload-label:hover {
+    background-color: var(--primary-hover);
+  }
+  
+  .file-upload-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   
   .file-input {
     display: none;
   }
   
-  .file-input-text {
-    display: inline-block;
-    color: white;
-    font-weight: normal;
+  .image-preview {
+    margin-top: 15px;
+    text-align: center;
   }
   
-  .selected-file {
-    margin-top: 8px;
+  .image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: var(--radius-md);
+    border: 3px solid var(--primary-light);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .error-input {
+    border-color: var(--danger) !important;
+  }
+  
+  .error-message {
+    color: var(--danger);
     font-size: 14px;
-    color: #666;
-    font-style: italic;
+    margin-top: 5px;
   }
   
-  .cta-button {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: #ff8c00;
+  .form-error-message {
+    color: var(--danger);
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+  }
+  
+  .submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 25px;
+    background-color: var(--primary);
     color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 16px;
-    transition: background-color 0.3s;
     border: none;
+    border-radius: var(--radius-md);
+    font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s;
     margin-top: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 10px;
   }
   
-  .cta-button:hover {
-    background-color: #e67e00;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  .submit-button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
   }
   
-  .cta-button:disabled {
-    background-color: #ccc;
+  .submit-button:disabled {
+    background-color: var(--gray-400);
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
   }
   
+  .submit-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
   /* Popup styling */
-  .popup {
+  .popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
   }
   
-  .popup-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
+  .popup-container {
+    background: white;
+    padding: 40px;
+    border-radius: var(--radius-lg);
     max-width: 500px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
   
-  .popup-content h4 {
-    color: #ff8c00;
-    font-size: 20px;
+  .popup-icon {
+    font-size: 60px;
+    color: var(--success);
+    margin-bottom: 20px;
+  }
+  
+  .popup-container h3 {
+    color: var(--gray-800);
+    font-size: 24px;
     margin-bottom: 15px;
   }
   
-  .popup-content p {
-    margin-bottom: 20px;
-    line-height: 1.5;
+  .popup-container p {
+    color: var(--gray-600);
+    margin-bottom: 25px;
+    line-height: 1.6;
   }
   
-  .close-btn {
-    background-color: #ff8c00;
-    border: none;
+  .popup-button {
+    background-color: var(--primary);
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    margin-top: 20px;
+    border: none;
+    padding: 12px 25px;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
   }
   
-  .close-btn:hover {
-    background-color: #e67e00;
+  .popup-button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
   }
   
-  .close-btn i {
-    margin-left: 5px;
-  }
-  
-  .error-message {
-    color: #e74c3c;
-    font-size: 14px;
-    margin: 5px 0 15px;
-    text-align: left;
-    font-weight: bold;
-  }
-
-  /* Improved popup styling */
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999; /* Higher z-index to ensure it appears on top */
-  }
-  
-  .popup-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    position: relative; /* Ensure relative positioning */
-    margin: 0 auto; /* Center horizontally */
-    animation: popupFadeIn 0.3s ease-out;
-  }
-  
-  @keyframes popupFadeIn {
+  @keyframes fadeInUp {
     from {
       opacity: 0;
-      transform: translateY(-20px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -287,54 +343,15 @@
     }
   }
   
-  .popup-content h4 {
-    color: #ff8c00;
-    font-size: 22px;
-    margin-bottom: 15px;
-    font-family: "Varela Round", sans-serif;
-  }
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .form-container {
+      flex-direction: column;
+    }
   
-  .popup-content p {
-    color: #333;
-    margin-bottom: 20px;
-    line-height: 1.5;
-    font-size: 16px;
-    font-family: "Varela Round", sans-serif;
+    .form-image {
+      flex: 0 0 100%;
+      max-width: 300px;
+      margin: 0 auto 30px;
+    }
   }
-  
-  .close-btn {
-    background-color: #ff8c00;
-    border: none;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    margin-top: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    font-size: 16px;
-  }
-  
-  .close-btn:hover {
-    background-color: #e67e00;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .close-btn i {
-    margin-left: 5px;
-  }
-  
-  /* Make sure the form doesn't interfere with the popup */
-  .post-pet-section form,
-  .post-lost-pet-section form {
-    position: relative;
-    z-index: 1;
-  }
-  
-  /* Ensure body doesn't scroll when popup is open */
-  body.popup-open {
-    overflow: hidden;
-  }
-
-  

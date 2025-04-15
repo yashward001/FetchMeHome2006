@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "../../Styles/Register.css";
-import avatar from "../../Assets/cat.jpg"; // Using the existing cat avatar
+import avatar from "../../Assets/cat.jpg";
 
 const Register = () => {
   const [formData, setFormData] = useState({

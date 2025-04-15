@@ -24,7 +24,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('../Assets/catlogin.jpg') no-repeat center center/cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../Assets/catlogin.jpg');
+  background-size: cover;
+  background-position: center;
   padding: 20px;
 }
 
@@ -32,10 +34,16 @@
   max-width: 450px;
   width: 100%;
   padding: 40px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.97);
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.5s ease;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.login-form-container:hover {
+  transform: translateY(-5px);
 }
 
 /* Login header with avatar */
@@ -52,6 +60,11 @@
   margin: 0 auto 20px;
   border: 5px solid var(--primary-light);
   box-shadow: 0 5px 15px rgba(255, 140, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.login-avatar:hover {
+  transform: scale(1.05);
 }
 
 .login-avatar img {
@@ -62,8 +75,9 @@
 
 .login-header h2 {
   font-size: 2rem;
-  color: var(--text-dark);
+  color: var(--primary);
   margin-bottom: 10px;
+  font-weight: 700;
 }
 
 .login-header p {
@@ -78,6 +92,7 @@
 
 .form-group {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .form-group label {
@@ -85,30 +100,33 @@
   margin-bottom: 8px;
   color: var(--text-dark);
   font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .form-group input {
   width: 100%;
   padding: 12px 15px;
   border: 1px solid var(--gray);
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: var(--transition);
+  background-color: var(--gray-light);
 }
 
 .form-group input:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+  background-color: var(--white);
 }
 
 /* Button styles */
 .login-button, 
 .admin-login-button {
   width: 100%;
-  padding: 12px 15px;
+  padding: 14px 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -117,6 +135,8 @@
   justify-content: center;
   align-items: center;
   transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .login-button {
@@ -126,6 +146,8 @@
 
 .login-button:hover {
   background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 140, 0, 0.2);
 }
 
 .admin-login-button {
@@ -135,18 +157,22 @@
 
 .admin-login-button:hover {
   background-color: #3a3f96;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(78, 84, 200, 0.2);
 }
 
 .login-button:disabled,
 .admin-login-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Loading spinner */
 .spinner {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: white;
@@ -163,6 +189,8 @@
 .login-footer {
   text-align: center;
   color: var(--gray-dark);
+  padding-top: 15px;
+  border-top: 1px solid var(--gray);
 }
 
 .login-footer a {
@@ -181,10 +209,11 @@
 .success-message,
 .error-message {
   padding: 12px 15px;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-bottom: 20px;
   font-weight: 600;
   text-align: center;
+  animation: fadeIn 0.3s ease;
 }
 
 .success-message {
@@ -203,7 +232,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;

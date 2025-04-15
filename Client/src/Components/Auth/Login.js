@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "../../Styles/Login.css";
-// Use the existing cat image
 import avatar from "../../Assets/cat.jpg";
 
 const Login = () => {
@@ -35,7 +34,7 @@ const Login = () => {
 
         setIsLoading(false);
         // Show success message
-        setSuccess(`Welcome, ${res.data.user.name}!`);
+        setSuccess(`Welcome back, ${res.data.user.name}!`);
         
         // Redirect after showing success message
         setTimeout(() => {

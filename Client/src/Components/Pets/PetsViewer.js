@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdoptForm from '../AdoptForm/AdoptForm';
 import { formatDistanceToNow } from 'date-fns';
-// Let's use the default styles for now
-// import '../../Styles/PetsViewer.css';
+import '../../Styles/PetViewer.css';
 
 const PetsViewer = (props) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -13,6 +12,7 @@ const PetsViewer = (props) => {
   const [reportReason, setReportReason] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   // Check login status
   useEffect(() => {
@@ -118,6 +118,10 @@ const PetsViewer = (props) => {
     return <span className={badgeClass}>{status}</span>;
   };
 
+  const openDetailsModal = () => {
+    setShowDetails(true);
+  };
+
   return (
     <div className="pet-card">
       <div className="pet-card-inner">
@@ -181,7 +185,7 @@ const PetsViewer = (props) => {
           </div>
           
           <div className="pet-card-expand">
-            <button className="expand-button" onClick={() => openPopup(props.pet)}>
+            <button className="expand-button" onClick={openDetailsModal}>
               View Details
             </button>
           </div>
@@ -243,6 +247,84 @@ const PetsViewer = (props) => {
                   </div>
                 </form>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pet Details Modal */}
+      {showDetails && (
+        <div className="modal-overlay">
+          <div className="modal-container details-modal">
+            <div className="modal-header">
+              <h2>{props.pet.name}</h2>
+              <button className="modal-close" onClick={() => setShowDetails(false)}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div className="modal-content">
+              <div className="details-content">
+                <div className="details-image">
+                  <img 
+                    src={`http://localhost:4000/Assets/${props.pet.filename}`} 
+                    alt={props.pet.name}
+                  />
+                  <div className="details-status">
+                    {renderStatusBadge(props.pet.status)}
+                  </div>
+                </div>
+                <div className="details-info">
+                  <div className="details-section">
+                    <h4>Pet Information</h4>
+                    <div className="details-grid">
+                      <div className="details-item">
+                        <span className="details-label">Type:</span>
+                        <span className="details-value">{props.pet.type}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Age:</span>
+                        <span className="details-value">{props.pet.age}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Location:</span>
+                        <span className="details-value">{props.pet.area}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="details-section">
+                    <h4>Justification</h4>
+                    <p className="details-description">{props.pet.justification}</p>
+                  </div>
+                  
+                  <div className="details-section">
+                    <h4>Contact Information</h4>
+                    <div className="details-contact">
+                      <a href={`mailto:${props.pet.email}`} className="contact-button email-button">
+                        <i className="fa fa-envelope"></i> Contact Owner
+                      </a>
+                      <a href={`tel:${props.pet.phone}`} className="contact-button phone-button">
+                        <i className="fa fa-phone"></i> Call Owner
+                      </a>
+                    </div>
+                  </div>
+                  
+                  {props.pet.status !== "Adopted" && (
+                    <div className="details-actions">
+                      <button 
+                        className="adopt-button wide-button" 
+                        onClick={() => {
+                          setShowDetails(false);
+                          setTimeout(() => openPopup(props.pet), 300);
+                        }}
+                        disabled={!isLoggedIn || props.pet.status === "Adopted"}
+                      >
+                        <i className="fa fa-paw"></i> Adopt This Pet
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

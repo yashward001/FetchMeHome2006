@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import lostPet from "./images/lostcat.jpg";
 import "../../Styles/PostLost.css"; 
 import LocationPicker from "./LocationPicker"; 
+import lostPetImage from "./images/lostcat.jpg";
 
 const PostLostPets = () => {
   const [name, setName] = useState("");
@@ -137,119 +137,153 @@ const PostLostPets = () => {
 
   return (
     <section className="post-lost-pet-section">
-      <h2>Report a Lost Pet</h2>
-      <img src={lostPet} alt="Lost Pet Poster" />
+      <div className="form-header">
+        <div className="form-icon">
+          <i className="fa fa-search"></i>
+        </div>
+        <h2>Report a Lost Pet</h2>
+        <p className="form-subheading">
+          Provide details about your lost pet to help community members identify and return them safely
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div className="input-box">
-          <label>Pet Name:</label>
-          <input 
-            type="text" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
-            placeholder="Enter pet name"
-          />
+      <div className="form-container">
+        <div className="form-image">
+          <img src={lostPetImage} alt="Lost Pet" />
         </div>
 
-        <div className="input-box">
-          <label>Pet Age:</label>
-          <input 
-            type="text" 
-            value={petAge} 
-            onChange={(e) => setPetAge(e.target.value)} 
-            placeholder="E.g. 3 years, 6 months"
-          />
-        </div>
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className="submission-form">
+          <div className="form-section">
+            <h3>Pet Information</h3>
+            
+            <div className="input-group">
+              <div className="input-box">
+                <label>Pet Name <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)} 
+                  placeholder="Enter pet name"
+                />
+              </div>
 
-        <div className="input-box">
-          <label>Pet Photo:</label>
-          <div className="file-input-container">
-            <label className="file-input-label">
-              <span className="file-input-text">{fileName || "Choose a Picture"}</span>
-              <input className="file-input" type="file" accept="image/*" onChange={handleFileChange} />
-            </label>
-            {fileName && <p className="selected-file">{fileName}</p>}
-          </div>
-          {previewUrl && (
-            <div className="image-preview">
-              <img src={previewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px', marginTop: '10px', borderRadius: '8px' }} />
+              <div className="input-box">
+                <label>Pet Age <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  value={petAge} 
+                  onChange={(e) => setPetAge(e.target.value)} 
+                  placeholder="E.g. 3 years, 6 months"
+                />
+              </div>
             </div>
-          )}
-        </div>
 
-        {/* Integrated Location Picker for Last Seen */}
-        <div className="input-box">
-          <label>Last Seen Location:</label>
-          <LocationPicker setLastSeenLocation={setLastSeenLocation} /> 
-        </div>
+            <div className="input-box">
+              <label>Pet Type <span className="required">*</span></label>
+              <select 
+                value={type} 
+                onChange={(event) => setType(event.target.value)}
+                className="type-select"
+              >
+                <option value="None">Select pet type</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+                <option value="Rabbit">Rabbit</option>
+                <option value="Bird">Bird</option>
+                <option value="Fish">Fish</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-        <div className="filter-selection-service">
-          <label>Pet Type:</label>
-          <select 
-            value={type} 
-            onChange={(event) => setType(event.target.value)}
-          >
-            <option value="None">Select pet type</option>
-            <option value="Dog">Dog</option>
-            <option value="Cat">Cat</option>
-            <option value="Rabbit">Rabbit</option>
-            <option value="Bird">Bird</option>
-            <option value="Fish">Fish</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+            <div className="input-box">
+              <label>Pet Photo <span className="required">*</span></label>
+              <div className="file-upload-container">
+                <label className="file-upload-label">
+                  <span className="file-upload-text">
+                    <i className="fa fa-upload"></i> {fileName || "Choose a Picture"}
+                  </span>
+                  <input className="file-input" type="file" accept="image/*" onChange={handleFileChange} />
+                </label>
+              </div>
+              {previewUrl && (
+                <div className="image-preview">
+                  <img src={previewUrl} alt="Preview" />
+                </div>
+              )}
+            </div>
 
-        <div className="input-box">
-          <label>Description:</label>
-          <textarea 
-            rows="4" 
-            value={description} 
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe your pet's appearance, distinctive features, behavior, etc."
-          ></textarea>
-        </div>
+            <div className="input-box">
+              <label>Last Seen Location <span className="required">*</span></label>
+              <LocationPicker setLastSeenLocation={setLastSeenLocation} /> 
+            </div>
 
-        <h3>Contact Information</h3>
-
-        <div className="input-box">
-          <label>Email:</label>
-          <input 
-            type="text" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            placeholder="your.email@gmail.com"
-          />
-          {emailError && <p className="error-message">Please provide a valid Gmail address.</p>}
-        </div>
-
-        <div className="input-box">
-          <label>Phone Number:</label>
-          <input 
-            type="tel" 
-            value={phone} 
-            onChange={(e) => setPhone(e.target.value)} 
-            placeholder="Your contact number"
-          />
-        </div>
-
-        {formError && <p className="error-message">Please fill out all fields correctly.</p>}
-
-        <button type="submit" className="cta-button" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit Lost Pet Report"}
-        </button>
-
-        {showPopup && (
-          <div className="popup">
-            <div className="popup-content">
-              <h4>Lost Pet Report Submitted Successfully!</h4>
-              <p>Your lost pet has been reported. You can view your listing in the Find Tab.</p>
-              <button onClick={togglePopup} className="close-btn">
-                Close <i className="fa fa-times"></i>
-              </button>
+            <div className="input-box">
+              <label>Description <span className="required">*</span></label>
+              <textarea 
+                rows="4" 
+                value={description} 
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Describe your pet's appearance, distinctive features, behavior, etc."
+              ></textarea>
             </div>
           </div>
-        )}
-      </form>
+
+          <div className="form-section">
+            <h3>Contact Information</h3>
+
+            <div className="input-group">
+              <div className="input-box">
+                <label>Email <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  placeholder="your.email@gmail.com"
+                  className={emailError ? "error-input" : ""}
+                />
+                {emailError && <p className="error-message">Please provide a valid Gmail address.</p>}
+              </div>
+
+              <div className="input-box">
+                <label>Phone Number <span className="required">*</span></label>
+                <input 
+                  type="tel" 
+                  value={phone} 
+                  onChange={(e) => setPhone(e.target.value)} 
+                  placeholder="Your contact number"
+                />
+              </div>
+            </div>
+          </div>
+
+          {formError && <p className="form-error-message">Please fill out all required fields correctly.</p>}
+
+          <button type="submit" className="submit-button" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <div className="submit-spinner"></div>
+            ) : (
+              <>
+                <i className="fa fa-paper-plane"></i> Submit Lost Pet Report
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-container">
+            <div className="popup-icon">
+              <i className="fa fa-check-circle"></i>
+            </div>
+            <h3>Lost Pet Report Submitted!</h3>
+            <p>Your lost pet has been reported. You can view your listing in the Find Tab.</p>
+            <button onClick={togglePopup} className="popup-button">
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
