@@ -17,6 +17,15 @@ const PostLostPets = () => {
   const [type, setType] = useState("None");
   const [picture, setPicture] = useState(null);
   const [fileName, setFileName] = useState("");
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  // Get user data on component mount
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (userData) {
+      setEmail(userData.email || "");
+    }
+  }, []);
 
   useEffect(() => {
     if (!isSubmitting) {
@@ -39,13 +48,36 @@ const PostLostPets = () => {
     if (selectedFile) {
       setPicture(selectedFile);
       setFileName(selectedFile.name);
+      
+      // Create preview URL
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedFile);
     }
+  };
+
+  const resetForm = () => {
+    setName("");
+    setPetAge("");
+    setLastSeenLocation("");
+    setDescription("");
+    setPhone("");
+    setType("None");
+    setPicture(null);
+    setFileName("");
+    setPreviewUrl(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const userId = localStorage.getItem("userId"); //  Ensure user is logged in
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("User is not logged in! Please log in first.");
+      return;
+    }
 
     if (
       !name ||
@@ -93,20 +125,11 @@ const PostLostPets = () => {
       }
 
       console.log("Lost pet report submitted successfully");
-
-      setEmailError(false);
-      setFormError(false);
-      setName("");
-      setPetAge("");
-      setLastSeenLocation(""); 
-      setDescription("");
-      setEmail("");
-      setPhone("");
-      setPicture(null);
-      setFileName("");
+      resetForm();
       togglePopup();
     } catch (error) {
       console.error("Error submitting form:", error);
+      alert("Error submitting form. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -147,6 +170,11 @@ const PostLostPets = () => {
             </label>
             {fileName && <p className="selected-file">{fileName}</p>}
           </div>
+          {previewUrl && (
+            <div className="image-preview">
+              <img src={previewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px', marginTop: '10px', borderRadius: '8px' }} />
+            </div>
+          )}
         </div>
 
         {/* Integrated Location Picker for Last Seen */}

@@ -12,17 +12,24 @@ const PostAdoptPets = () => {
   const [phone, setPhone] = useState("");
   const [formError, setFormError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [ageError, setAgeError] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [type, setType] = useState("None");
   const [picture, setPicture] = useState(null);
   const [fileName, setFileName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  // Get user data on component mount
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (userData) {
+      setEmail(userData.email || "");
+    }
+  }, []);
 
   useEffect(() => {
     if (!isSubmitting) {
       setEmailError(false);
-      setAgeError(false);
       setFormError(false);
     }
   }, [isSubmitting]);
@@ -41,7 +48,26 @@ const PostAdoptPets = () => {
     if (selectedFile) {
       setPicture(selectedFile);
       setFileName(selectedFile.name);
+
+      // Create preview URL
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedFile);
     }
+  };
+
+  const resetForm = () => {
+    setName("");
+    setAge("");
+    setArea("");
+    setJustification("");
+    setPhone("");
+    setType("None");
+    setPicture(null);
+    setFileName("");
+    setPreviewUrl(null);
   };
 
   const handleSubmit = async (e) => {
@@ -61,8 +87,7 @@ const PostAdoptPets = () => {
       !email ||
       !phone ||
       !picture ||
-      type === "None" ||
-      ageError
+      type === "None"
     ) {
       setFormError(true);
       return;
@@ -100,20 +125,11 @@ const PostAdoptPets = () => {
       }
 
       console.log("Form submitted successfully");
-
-      setEmailError(false);
-      setFormError(false);
-      setName("");
-      setAge("");
-      setArea(""); 
-      setJustification("");
-      setEmail("");
-      setPhone("");
-      setPicture(null);
-      setFileName("");
+      resetForm();
       togglePopup();
     } catch (error) {
       console.error("Error submitting form:", error);
+      alert("Error submitting form. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -154,6 +170,11 @@ const PostAdoptPets = () => {
             </label>
             {fileName && <p className="selected-file">{fileName}</p>}
           </div>
+          {previewUrl && (
+            <div className="image-preview">
+              <img src={previewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px', marginTop: '10px', borderRadius: '8px' }} />
+            </div>
+          )}
         </div>
 
         {/* Integrated Location Picker for Area */}

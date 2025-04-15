@@ -7,6 +7,7 @@ const LocationPicker = ({ setLastSeenLocation }) => {
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [nearestLocation, setNearestLocation] = useState("");
     const [showPopup, setShowPopup] = useState(false);
+    const [loading, setLoading] = useState(false);
     const mapRef = useRef(null);
     const mapContainerRef = useRef(null);
     const markerRef = useRef(null);
@@ -40,6 +41,18 @@ const LocationPicker = ({ setLastSeenLocation }) => {
         });
         L.Marker.prototype.options.icon = defaultIcon;
 
+        // Try to get user's current location for better UX
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                map.setView([latitude, longitude], 15);
+            },
+            (error) => {
+                console.log("Geolocation error:", error);
+                // Default position will be used if geolocation fails
+            }
+        );
+
         // Function to handle map clicks
         map.on('click', function (e) {
             const { lat, lng } = e.latlng;
@@ -62,6 +75,7 @@ const LocationPicker = ({ setLastSeenLocation }) => {
     // Fetch location name from coordinates using OpenStreetMap Nominatim
     const fetchLocationName = async (lat, lng) => {
         try {
+            setLoading(true);
             const response = await fetch(
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
                 { headers: { 'Accept-Language': 'en' } }
@@ -73,12 +87,14 @@ const LocationPicker = ({ setLastSeenLocation }) => {
                 setLastSeenLocation(data.display_name);
             } else {
                 setNearestLocation("Location selected, but address not found");
-                setLastSeenLocation("Location selected");
+                setLastSeenLocation(`Latitude: ${lat.toFixed(6)}, Longitude: ${lng.toFixed(6)}`);
             }
         } catch (error) {
             console.error("Error fetching location name:", error);
             setNearestLocation("Error getting location name");
-            setLastSeenLocation("Location selected");
+            setLastSeenLocation(`Latitude: ${lat.toFixed(6)}, Longitude: ${lng.toFixed(6)}`);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -115,7 +131,11 @@ const LocationPicker = ({ setLastSeenLocation }) => {
                         ></div>
                         <div className="popup-actions">
                             <button onClick={handleClosePopup} className="confirm-button">
-                                Confirm Location
+                                {loading ? (
+                                    <span>Loading address...</span>
+                                ) : (
+                                    <span>Confirm Location</span>
+                                )}
                             </button>
                         </div>
                     </div>
