@@ -1,0 +1,474 @@
+/* PetsViewer styling */
+:root {
+    --primary: #ff8c00;
+    --primary-light: #ffab40;
+    --primary-dark: #e67e00;
+    --secondary: #4e54c8;
+    --secondary-light: #8f94fb;
+    --white: #ffffff;
+    --black: #2c2c2c;
+    --gray-light: #f8f9fa;
+    --gray: #e9ecef;
+    --gray-dark: #555;
+    --text-dark: #333333;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+    --card-height: 380px;
+  }
+  
+  /* Pet Card Container */
+  .pet-card {
+    position: relative;
+    width: 300px;
+    height: var(--card-height);
+    perspective: 1000px;
+    margin: 15px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .pet-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .pet-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .pet-card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+  
+  /* Pet Card Header */
+  .pet-card-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    z-index: 5;
+  }
+  
+  /* Status Badge */
+  .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .status-badge.adopted {
+    background-color: #e0e0e0;
+    color: #757575;
+  }
+  
+  .status-badge.pending {
+    background-color: var(--warning);
+    color: #856404;
+  }
+  
+  .status-badge.available {
+    background-color: var(--success);
+    color: white;
+  }
+  
+  .status-badge.default {
+    background-color: var(--info);
+    color: white;
+  }
+  
+  /* Pet Actions */
+  .pet-actions {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .save-button {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .save-button:hover {
+    background-color: white;
+    transform: scale(1.1);
+  }
+  
+  .save-button.saved i {
+    color: #ff4757;
+  }
+  
+  .save-button i {
+    font-size: 1rem;
+    color: #616161;
+  }
+  
+  /* Pet Image */
+  .pet-image-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+  }
+  
+  .pet-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .pet-card:hover .pet-image {
+    transform: scale(1.05);
+  }
+  
+  /* Pet Card Content */
+  .pet-card-content {
+    padding: 15px;
+  }
+  
+  .pet-name {
+    margin: 0 0 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+  
+  .pet-details {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .pet-detail {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    margin-bottom: 5px;
+  }
+  
+  .pet-detail-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    position: relative;
+  }
+  
+  /* Custom icons using pseudo-elements */
+  .type-icon::before {
+    content: '🐾';
+    position: absolute;
+  }
+  
+  .age-icon::before {
+    content: '🎂';
+    position: absolute;
+  }
+  
+  .location-icon::before {
+    content: '📍';
+    position: absolute;
+  }
+  
+  .pet-detail-label {
+    font-size: 0.9rem;
+    color: var(--gray-dark);
+  }
+  
+  .pet-timeago {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 15px;
+  }
+  
+  .pet-timeago i {
+    margin-right: 5px;
+  }
+  
+  /* Pet Card Actions */
+  .pet-card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .adopt-button {
+    flex: 1;
+    padding: 8px 0;
+    border: none;
+    border-radius: 25px;
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .adopt-button i {
+    margin-right: 5px;
+  }
+  
+  .adopt-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+  }
+  
+  .report-button {
+    width: 36px;
+    height: 36px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .report-button:hover {
+    background-color: #e0e0e0;
+    color: var(--danger);
+  }
+  
+  /* Pet Card Expand */
+  .pet-card-expand {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 15px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+  
+  .pet-card:hover .pet-card-expand {
+    opacity: 1;
+  }
+  
+  .expand-button {
+    width: 100%;
+    padding: 8px 0;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .expand-button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  
+  .modal-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    animation: modal-fade-in 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--gray);
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--text-dark);
+  }
+  
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray-dark);
+    transition: color 0.2s ease;
+  }
+  
+  .modal-close:hover {
+    color: var(--danger);
+  }
+  
+  .modal-content {
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  /* Report Modal */
+  .report-modal {
+    max-width: 500px;
+  }
+  
+  .report-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .report-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  .report-form textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    resize: vertical;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .cancel-button,
+  .submit-button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .cancel-button {
+    background-color: var(--gray);
+    color: var(--text-dark);
+  }
+  
+  .cancel-button:hover {
+    background-color: #d8d8d8;
+  }
+  
+  .submit-button {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .submit-button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  .submit-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .report-success {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .report-success i {
+    font-size: 3rem;
+    color: var(--success);
+    margin-bottom: 15px;
+  }
+  
+  .report-success p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+  }
+  
+  /* Animations */
+  @keyframes modal-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .pet-card {
+      width: calc(50% - 30px);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .pet-card {
+      width: calc(100% - 30px);
+    }
+    
+    .modal-container {
+      width: 95%;
+    }
+  }

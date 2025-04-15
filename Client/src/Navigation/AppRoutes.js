@@ -11,12 +11,8 @@ import LoginRoutes from "./LoginRoutes";
 import LostPetRoutes from "./LostPetRoutes";
 import PanelRoutes from "./PanelRoutes";
 import PersonalityRoutes from "./PersonalityRoutes";
-import AdminPanelRoute from "./AdminPanelRoute";
 import ProfileRoutes from "./ProfileRoutes";
 import SavedPetRoutes from "./SavedPetRoutes"
-import AdminPetRoute from "./AdminPetRoute"
-import AdminLostPetRoute from "./AdminLostPetRoute";
-import AdminHomePageRoute from "./AdminHomePageRoute";
 
 
 const AppRoutes = () => {
@@ -32,10 +28,6 @@ const AppRoutes = () => {
       {PetRoutes}
       {AdoptFormRoutes}
       {AdminRoutes}
-      {AdminPanelRoute}
-      {AdminPetRoute}
-      {AdminLostPetRoute}
-      {AdminHomePageRoute}
       {PersonalityRoutes}
       {ProfileRoutes}
       {SavedPetRoutes}

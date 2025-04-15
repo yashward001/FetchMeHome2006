@@ -152,14 +152,14 @@ const UserPetCards = (props) => {
           <div className='app-rej-btn' style={{ display: 'flex', gap: '10px' }}>
             {/* Edit Button (Only show if showEditButton is true) */}
             {props.showEditButton && (
-              <button className="edit-request-btn" onClick={() => setIsEditing(true)}>
-                Edit
-              </button>
+              <button onClick={() => setIsEditing(true)}>Edit</button>
             )}
 
+            {/* Delete Button */}
+            
             {props.deleteBtnText && (
-              <button className="delete-request-btn" onClick={handleReject} disabled={isDeleting}>
-                {isDeleting ? "Deleting..." : props.deleteBtnText}
+              <button onClick={handleReject} disabled={isDeleting}>
+                {isDeleting ? (<p>Deleting</p>) : props.deleteBtnText}
               </button>
             )}
           </div>

@@ -3,7 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../../Styles/LocationPicker.css"; 
 
-const API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjIzMWU4ZTk2MTA1YzcxZmE0NWI0M2Q0NWNhZGQzZCIsImlzcyI6Imh0dHA6Ly9pbnRlcm5hbC1hbGItb20tcHJkZXppdC1pdC1uZXctMTYzMzc5OTU0Mi5hcC1zb3V0aGVhc3QtMS5lbGIuYW1hem9uYXdzLmNvbS9hcGkvdjIvdXNlci9wYXNzd29yZCIsImlhdCI6MTc0NDQ1MTU5NywiZXhwIjoxNzQ0NzEwNzk3LCJuYmYiOjE3NDQ0NTE1OTcsImp0aSI6InRac295a2hxYWhqR0o5cGgiLCJ1c2VyX2lkIjo2ODMxLCJmb3JldmVyIjpmYWxzZX0.y5WpTWrtFTZhi41sWe-9iHXLQndeH-003Tm_kq8oa68"; 
+const API_KEY = process.env.API_KEY; 
 
 const LocationPicker = ({ setLastSeenLocation }) => {
     const [selectedLocation, setSelectedLocation] = useState(null);

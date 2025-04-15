@@ -137,7 +137,7 @@ const PostLostPets = () => {
           </label>
         </div>
 
-        {/* Integrated Location Picker for Last Seen */}
+        {/* ✅ Integrated Location Picker for Last Seen */}
         <div className="input-box">
           <label>Last Seen:</label>
           <LocationPicker setLastSeenLocation={setLastSeenLocation} /> 

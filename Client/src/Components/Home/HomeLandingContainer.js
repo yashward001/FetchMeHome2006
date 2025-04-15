@@ -1,46 +1,55 @@
 import React from "react";
-import girlHoldingADog from "./images/girlHoldingADog.png";
-import homepageDog from "./images/homepageDog.png";
-import footPrint from "./images/footPrint.png";
 import { Link } from "react-router-dom";
-import "../../Styles/Home.css"
+import "../../Styles/Home.css";
+
+// Import images with proper paths
+import heroImage from "./images/girlHoldingADog.png";
+import footPrint from "./images/footPrint.png";
 
 const HomeLandingContainer = (props) => {
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
+  
   return (
-    <div className="home-container">
-      <div className="homeContainer-left">
-        <div>
-          <p className="home-title">
-            <div className="home-titlePlusPng">
-            <p>Your Pets </p><img src={homepageDog} alt="Dog sitting"/>
-            </div>
-            Are Our
-            <br />
-            Priority
+    <div className="hero-section">
+      <div className="hero-content">
+        <div className="hero-text">
+          <h1 className="hero-title">
+            Finding Forever Homes <span className="highlight">Together</span>
+          </h1>
+          <p className="hero-subtitle">
+            Whether you're looking to adopt a new companion or reunite with a lost friend,
+            we're here to make the journey simple, supportive, and joyful.
           </p>
-          <p className="home-second-para">
-          Make sure you're ready to give a loving home to an adopted pet or help reunite a lost pet with its family.
-          </p>
+          <div className="hero-buttons">
+            <Link to="/pets" className="primary-button" onClick={scrollToTop}>
+              <span>Adopt a Pet</span>
+              <img src={footPrint} alt="footprint" className="button-icon" />
+            </Link>
+            <Link to="/find" className="secondary-button" onClick={scrollToTop}>
+              <span>Find a Pet</span>
+              <img src={footPrint} alt="footprint" className="button-icon" />
+            </Link>
+          </div>
         </div>
-
-        <div classname="adopt-btn" style={{ display: "flex", justifyContent: "left", alignItems: "center", gap: "20px", marginTop: "10px" }}>
-          <Link to='./pets' style={{ textDecoration: "none" }}>
-            <button className="Home-button" style={{ width: "180px" }} onClick={scrollToTop}>
-              <p>Adopt a Pet</p><img src={footPrint} alt="footprint" />
-            </button>
-          </Link>
-          <Link to='./find' style={{ textDecoration: "none" }}>
-            <button className="Home-button" style={{ width: "180px" }} onClick={scrollToTop}>
-              <p>Find a Pet</p><img src={footPrint} alt="footprint" />
-            </button>
-          </Link>
+        <div className="hero-image">
+          <img 
+            src={heroImage} 
+            alt="Happy pet and owner" 
+            className="bounce-animation"
+          />
         </div>
       </div>
-      <div className="homeContainer-right">
-        <img src={girlHoldingADog} alt='Girl holding a Dog'/>
+      <div className="hero-scrolldown">
+        <div className="mouse">
+          <div className="wheel"></div>
+        </div>
+        <div>
+          <span className="scroll-arrows">
+            ↓
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -1,153 +1,314 @@
-/* Reset & Full-Screen Background */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Centered Form Container */
-  .register-container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url('../Assets/catlogin.jpg') no-repeat center center/cover;
-  }
-  
-  /* Glassmorphic Form Styling */
-  .register-form {
-    position: relative;
-    width: 100%;
-    max-width: 380px;
-    padding: 60px 40px 40px;
-    background: rgba(0, 0, 0, 0.75);
-    border-radius: 12px;
-    color: #fff;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px); /* Smooth Glass Effect */
-  }
-  
-  /* Semi-Transparent Glass Effect */
-  .register-form::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.08);
-    transform: skewX(-26deg);
-    transform-origin: bottom left;
-    border-radius: 12px;
-    pointer-events: none;
-  }
-  
-  /* Avatar Icon */
-  .register-avatar {
-    position: absolute;
-    top: -50px;
-    left: calc(50% - 50px);
-    width: 100px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  /* Title Styling */
-  .register-title {
-    text-align: center;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    color: #ff652f;
-    font-weight: bold;
-  }
-  
-  /* Input Fields */
-  .input-group {
-    position: relative;
-    margin-bottom: 25px;
-  }
-  
-  .input-group input {
-    width: 100%;
-    padding: 12px 0;
-    font-size: 1rem;
-    border: none;
-    border-bottom: 2px solid #fff;
-    outline: none;
-    background-color: transparent;
-    color: #fff;
-  }
-  
-  /* Floating Label Animation */
-  .input-group label {
-    position: absolute;
-    top: 12px;
-    left: 0;
-    font-size: 1rem;
-    pointer-events: none;
-    transition: 0.3s ease-out;
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  /* Fix: Ensure Label Moves Up */
-  .input-group input:focus + label,
-  .input-group input:not(:placeholder-shown) + label {
-    transform: translateY(-18px);
-    color: #ff652f;
-    font-size: 0.8rem;
-  }
-  
-  /* Placeholder Fix */
-  .input-group input::placeholder {
-    opacity: 0;
-  }
-  
-  /*  Register Button */
-  .register-button {
-    display: block;
-    width: 100%;
-    border: none;
-    outline: none;
-    background: #ff652f;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 12px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    color: white;
-    font-weight: bold;
-  }
-  
-  /* Hover Effect */
-  .register-button:hover {
-    background: #e65c00;
-  }
-  
-  .guest-login-button {
-    display: block;
-    width: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 12px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    color: white;
-    font-weight: bold;
-    /*margin-top: 10px;*/
-    text-decoration: underline;
+:root {
+  --primary: #ff8c00;
+  --primary-light: #ffab40;
+  --primary-dark: #e67e00;
+  --secondary: #4e54c8;
+  --secondary-light: #8f94fb;
+  --secondary-dark: #3a3f96;
+  --white: #ffffff;
+  --black: #2c2c2c;
+  --gray-light: #f8f9fa;
+  --gray: #e9ecef;
+  --gray-dark: #555;
+  --text-dark: #333333;
+  --success: #28a745;
+  --danger: #dc3545;
+  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+  --transition: all 0.3s ease;
 }
 
-/*  Hover Effect */
-.guest-login-button:hover {
-  color: grey;
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--gray-light);
+}
+
+.register-container {
+  display: flex;
+  flex-direction: row-reverse; /* Reverse the order compared to login */
+  width: 100%;
+  max-width: 1000px;
+  height: 600px;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Left side with welcome message */
+.register-left {
+  flex: 1;
+  background: linear-gradient(135deg, var(--secondary-light) 0%, var(--secondary-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-left::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: url('../Assets/catlogin.jpg') center center;
+  background-size: cover;
+  opacity: 0.1;
+  filter: blur(5px);
+}
+
+.register-welcome {
+  position: relative;
+  text-align: center;
+  color: var(--white);
+  max-width: 400px;
+}
+
+.register-welcome h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.register-welcome p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Right side with register form */
+.register-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Register header with avatar */
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.register-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 20px;
+  border: 5px solid var(--secondary-light);
+  box-shadow: 0 0 15px rgba(78, 84, 200, 0.2);
+}
+
+.register-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.register-header h2 {
+  font-size: 2rem;
+  color: var(--text-dark);
+  margin-bottom: 5px;
+}
+
+.register-subtitle {
+  color: var(--gray-dark);
+  font-size: 0.95rem;
+}
+
+/* Register form */
+.register-form {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-dark);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 1px solid var(--gray);
+  border-radius: 30px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1);
+}
+
+/* Button group for back and register buttons */
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.back-button,
+.register-button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-button {
+  background-color: var(--gray);
+  color: var(--text-dark);
+}
+
+.back-button:hover {
+  background-color: var(--gray-dark);
+  color: var(--white);
+}
+
+.register-button {
+  background-color: var(--secondary);
+  color: var(--white);
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.register-button:hover {
+  background-color: var(--secondary-dark);
+}
+
+.register-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Button loader */
+.button-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--white);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error message */
+.error-message {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(220, 53, 69, 0.1);
+  color: var(--danger);
+}
+
+/* Success container */
+.success-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.success-icon {
+  font-size: 5rem;
+  color: var(--success);
+  margin-bottom: 20px;
+  animation: scale-up 0.5s ease;
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.success-container h3 {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.success-container p {
+  color: var(--gray-dark);
+}
+
+/* Register footer */
+.register-footer {
+  text-align: center;
+  color: var(--gray-dark);
+}
+
+.register-footer a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.register-footer a:hover {
+  color: var(--secondary-dark);
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .register-container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .register-left {
+    display: none; /* Hide the welcome section on mobile */
+  }
+  
+  .register-right {
+    padding: 30px 20px;
+  }
+  
+  .register-card {
+    max-width: 100%;
+  }
+  
+  .register-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .register-header h2 {
+    font-size: 1.8rem;
+  }
 }

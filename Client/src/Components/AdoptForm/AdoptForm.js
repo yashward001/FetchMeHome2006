@@ -40,7 +40,7 @@ function AdoptForm(props) {
     }
 
     const userId = localStorage.getItem("userId"); 
-    console.log("Logged-in User ID:", userId);// Get logged-in user ID
+    console.log("👤 Logged-in User ID:", userId);// Get logged-in user ID
 
     if (!userId) {
       console.error("User is not logged in!");

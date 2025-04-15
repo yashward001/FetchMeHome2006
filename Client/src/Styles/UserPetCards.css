@@ -63,34 +63,3 @@
   width: auto;
   margin-left: 80px;
 }
-
-.edit-request-btn {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s ease-in-out;
-}
-
-.edit-request-btn:hover {
-  background-color: #218838;
-}
-
-/* Delete Button - reuse if already defined */
-.delete-request-btn {
-  background-color: #dc3545;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s ease-in-out;
-}
-
-.delete-request-btn:hover {
-  background-color: #c82333;
-}

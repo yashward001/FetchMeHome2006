@@ -4,19 +4,35 @@ import logo from "../NavBar/images/logo.png";
 import "../../Styles/MyPanelNav.css"
 
 const AdminNavBar = () => {
-  const navigate = useNavigate();
-  const [authChanged, setAuthChanged] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin") === "true");
+//   const [currentTime, setCurrentTime] = useState(new Date());
+//   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem("token"));
-    setIsAdmin(localStorage.getItem("isAdmin") === "true");
-  }, [authChanged]);
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setCurrentTime(new Date());
+//     }, 1000);
+
+//     return () => {
+//       clearInterval(interval);
+//     };
+//   }, []);
+
+//   return (
+//     <nav className="navbar">
+//       <div className="navbar-brand">Admin Panel</div>
+//       <div className="navbar-time">{currentTime.toLocaleString()}</div>
+//       <h3  className="home_b" onClick={() => navigate("/")}>Home</h3> 
+//       <h3 className='logout-btn' onClick={() => (window.location.reload())}>Logout</h3>
+//     </nav>
+//   );
+// }
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  const [adoptDropdown, setAdoptDropdown] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
-    setAuthChanged(prev => !prev); // force re-evaluation
     navigate("/login");
   };
 
@@ -31,17 +47,44 @@ const AdminNavBar = () => {
       <div>
         <ul className="navbar-links">
           <li>
-            <Link to="/adminhome">Home</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/adminfind">Find</Link>
+            <Link to="/services">Services</Link>
           </li>
           <li>
-            <Link to="/adminpets">Adopt</Link>
+            <Link to="/find">Find</Link>
+          </li>
+          <li 
+            className="dropdown" 
+            onMouseEnter={() => setAdoptDropdown(true)} 
+            onMouseLeave={() => setAdoptDropdown(false)}
+          >
+            <Link to="/pets">
+              Adopt <span className="dropdown-arrow">▼</span>
+            </Link>
+            {adoptDropdown && (
+              <ul className="dropdown-menu">
+                <li><Link to="/personality">Personality</Link></li>
+              </ul>
+            )}
+          </li>
+
+          <li>
+            <Link to="/faq">FAQ</Link>
           </li>
           <li>
-            <Link to="/adminpanel" className="my-panel-link">Admin Panel</Link>
-            <button onClick={handleLogout}>Logout</button>
+              {!isLoggedIn ? (
+            <>
+              <Link to="/register">Register</Link>
+              <Link to="/login">Login</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/mypanel" className="my-panel-link">My Panel</Link> 
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          )}
           </li>
         </ul>
       </div>
