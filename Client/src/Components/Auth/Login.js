@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "../../Styles/Login.css";
@@ -14,6 +14,14 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const { email, password } = formData;
   const navigate = useNavigate();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -53,64 +61,93 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <div className="login-form-container">
-        <div className="login-header">
-          <div className="login-avatar">
-            <img src={avatar} alt="User Avatar" />
+      <div className="login-container">
+        <div className="login-left">
+          <div className="login-welcome">
+            <h1>Welcome Back!</h1>
+            <p>Log in to continue your journey in pet adoption and recovery</p>
+            <div className="login-features">
+              <div className="feature-item">
+                <i className="fa fa-paw"></i>
+                <span>Find Your Perfect Pet</span>
+              </div>
+              <div className="feature-item">
+                <i className="fa fa-home"></i>
+                <span>Adopt a Pet in Need</span>
+              </div>
+              <div className="feature-item">
+                <i className="fa fa-search"></i>
+                <span>Help Find Lost Pets</span>
+              </div>
+            </div>
           </div>
-          <h2>Welcome Back</h2>
-          <p>Sign in to continue to FetchMeHome</p>
         </div>
-        
-        {success && <div className="success-message">{success}</div>}
-        {error && <div className="error-message">{error}</div>}
-        
-        <form onSubmit={onSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={onChange}
-              required
-            />
+
+        <div className="login-right">
+          <div className="login-form-container">
+            <div className="login-header">
+              <div className="login-avatar">
+                <img src={avatar} alt="User Avatar" />
+              </div>
+              <h2>Welcome Back</h2>
+              <p>Sign in to continue to FetchMeHome</p>
+            </div>
+            
+            {success && <div className="success-message">{success}</div>}
+            {error && <div className="error-message">{error}</div>}
+            
+            <form onSubmit={onSubmit} className="login-form">
+              <div className="form-group">
+                <label htmlFor="email">
+                  <i className="fa fa-envelope"></i>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="password">
+                  <i className="fa fa-lock"></i>
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              
+              <button type="submit" className="login-button" disabled={isLoading}>
+                {isLoading ? (
+                  <div className="spinner"></div>
+                ) : (
+                  "Login"
+                )}
+              </button>
+              
+              <button 
+                type="button" 
+                className="admin-login-button" 
+                onClick={() => navigate("/admin")}
+              >
+                Login as Admin
+              </button>
+            </form>
+            
+            <div className="login-footer">
+              <p>Don't have an account? <Link to="/register">Register</Link></p>
+            </div>
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={onChange}
-              required
-            />
-          </div>
-          
-          <button type="submit" className="login-button" disabled={isLoading}>
-            {isLoading ? (
-              <div className="spinner"></div>
-            ) : (
-              "Login"
-            )}
-          </button>
-          
-          <button 
-            type="button" 
-            className="admin-login-button" 
-            onClick={() => navigate("/admin")}
-          >
-            Login as Admin
-          </button>
-        </form>
-        
-        <div className="login-footer">
-          <p>Don't have an account? <Link to="/register">Register</Link></p>
         </div>
       </div>
     </div>

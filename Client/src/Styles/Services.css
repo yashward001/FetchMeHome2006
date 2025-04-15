@@ -1,0 +1,219 @@
+/* Services.css */
+.services-container {
+    max-width: 1400px;
+    margin: 80px auto 40px;
+    padding: 0 20px;
+  }
+  
+  .services-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .services-header h1 {
+    color: var(--primary);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .services-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: 10px;
+  }
+  
+  .services-header p {
+    color: var(--gray-600);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+  
+  .login-prompt {
+    background-color: var(--gray-100);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    border-left: 4px solid var(--primary);
+  }
+  
+  .login-prompt p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  
+  .login-prompt a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .login-prompt a:hover {
+    text-decoration: underline;
+    color: var(--primary-dark);
+  }
+  
+  /* Services Tabs */
+  .services-tabs {
+    margin-bottom: 40px;
+  }
+  
+  .services-columns {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .services-column {
+    flex: 1;
+    min-width: 0; /* Prevents overflow issues */
+  }
+  
+  .service-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    height: 100%;
+  }
+  
+  .service-card h2 {
+    padding: 20px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+    background-color: var(--primary);
+    text-align: center;
+  }
+  
+  .adoption-service h2 {
+    background-color: var(--primary);
+  }
+  
+  .lost-service h2 {
+    background-color: var(--secondary);
+  }
+  
+  /* Form styling adjustments */
+  .services-column .post-pet-section,
+  .services-column .post-lost-pet-section {
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+  }
+  
+  .services-column .form-header {
+    padding-top: 10px;
+  }
+  
+  .services-column .post-pet-section .form-icon,
+  .services-column .post-lost-pet-section .form-icon {
+    display: none; /* Hide redundant icons */
+  }
+  
+  .services-column .post-pet-section h2,
+  .services-column .post-lost-pet-section h2 {
+    display: none; /* Hide redundant titles */
+  }
+  
+  .services-column .form-container {
+    flex-direction: column;
+  }
+  
+  .services-column .form-image {
+    max-width: 200px;
+    margin: 0 auto 20px;
+  }
+  
+  .services-column .form-subheading {
+    padding: 0 15px;
+  }
+  
+  /* Specific styles for adopt and find sections */
+  .services-column .adopt-section,
+  .services-column .find-section {
+    padding: 30px 20px;
+    text-align: center;
+  }
+  
+  .services-column .adopt-section h2,
+  .services-column .find-section h2 {
+    display: none; /* Hide redundant titles */
+  }
+  
+  .services-column .adopt-section img,
+  .services-column .find-section img {
+    max-width: 200px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .services-columns {
+      flex-direction: column;
+      gap: 30px;
+    }
+    
+    .services-column {
+      width: 100%;
+    }
+    
+    .service-card {
+      margin-bottom: 30px;
+    }
+  }
+  
+  /* Form elements in services */
+  .services-column .form-section {
+    padding: 15px;
+  }
+  
+  .services-column .input-group {
+    grid-template-columns: 1fr; /* Single column on small screens */
+  }
+  
+  .services-column .submit-button {
+    max-width: 300px;
+    margin: 20px auto 0;
+  }
+  
+  /* Footer adjustments */
+  .services-container .footer {
+    margin-top: 40px;
+  }
+  
+  /* Additional spacing for better readability */
+  .services-column .form-section + .form-section {
+    margin-top: 20px;
+  }
+  
+  /* Making sure our forms don't overflow */
+  .services-column .submission-form {
+    overflow: hidden;
+    padding: 10px;
+  }
+  
+  /* Styling for file upload buttons */
+  .services-column .file-upload-label {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Location picker adjustments */
+  .services-column .location-picker-wrapper button {
+    width: 100%;
+  }
+  
+  /* Make text areas a bit smaller */
+  .services-column textarea {
+    min-height: 80px;
+  }
