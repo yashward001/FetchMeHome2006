@@ -1,0 +1,178 @@
+.post-lost-pet-section {
+    text-align: center;
+    padding: 45px;
+    margin-right : 100px;
+
+    width: 45vw;
+    /* max-width: 40vw;
+    margin-left:80px; */
+}
+
+.post-lost-pet-section h2 {
+    font-family: "Varela Round", sans-serif;
+    padding-bottom: 10px;
+    color: var(--orange);
+    border-bottom: 2px solid var(--orange);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.post-lost-pet-section img {
+    max-width:60%;
+    border-radius: 30px;
+    margin-bottom:45px;
+}
+
+.post-lost-pet-section p {
+    font-family: "Varela Round", sans-serif;
+    color: var(--darkGrey);
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.post-lost-pet-section h3 {
+    font-family: "Varela Round", sans-serif;
+    color: var(--orange);
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.post-lost-pet-section label {
+    font-family: "Varela Round", sans-serif;
+    color: var(--orange);
+    font-weight: bold;
+    display: block;
+}
+
+.input-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-lost-pet-section input[type="text"],
+.post-lost-pet-section input[type="email"],
+.post-lost-pet-section input[type="tel"],
+.post-lost-pet-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 500px;
+    margin: 7px 0;
+}
+
+.post-lost-pet-section textarea {
+    resize: vertical;
+}
+
+.filter-selection-service {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+}
+
+.filter-selection-service select {
+    font-family: "Varela Round", sans-serif;
+    font-size: 14px;
+    margin: 10px 0;
+    border-radius: 100px;
+    border: none;
+    padding: 8px 8px;
+    color: var(--white);
+    background-color: var(--orange);
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: var(--orange);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 100px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    margin-top: 10px;
+}
+
+.cta-button:hover {
+    background-color: var(--hoverorange);
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.file-input-label {
+    display: inline-block;
+    font-family: "Varela Round", sans-serif;
+    font-size: 14px;
+    margin: 10px 0;
+    border-radius: 100px;
+    border: none;
+    padding: 8px 20px;
+    color: var(--white);
+    background-color: var(--orange);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    max-width: 165px;
+    overflow: hidden;
+    max-height: 33px;
+}
+
+.file-input-label:hover {
+    background-color: var(--hoverorange);
+}
+
+.file-input {
+    display: none;
+}
+
+.file-input-text {
+    display: inline-block;
+    color: var(--white);
+    margin-right: 10px;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    max-width: 80%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
+}
+
+.close-btn {
+    background-color: #ff1900;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.close-btn i {
+    margin-left: 5px;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}

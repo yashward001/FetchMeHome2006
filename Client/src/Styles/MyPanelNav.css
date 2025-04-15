@@ -1,0 +1,32 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--orange);
+    color: black;
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-time {
+    font-family: "Varela Round", sans-serif;
+    font-size: 16px;
+    flex-grow: 1; 
+    text-align: center;
+    margin-left: 200px; /* Centers the time */
+}
+
+.home_b {
+    display: flex;
+    margin-right: 30px; /* Adds space between Home & Logout */
+}
+
+.home_b, .logout-btn {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}

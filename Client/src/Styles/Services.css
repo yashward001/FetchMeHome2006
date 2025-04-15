@@ -1,0 +1,12 @@
+.main-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  
+  .divider-line {
+    width: 1px;
+    background-color: #ccc;
+    height: auto;
+    align-self: stretch;
+  }

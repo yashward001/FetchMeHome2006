@@ -1,0 +1,154 @@
+/* Reset & Full-Screen Background */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /*  Background Image */
+  .logins-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../Assets/catlogin.jpg') no-repeat center center/cover;
+  }
+  
+  /*  Glassmorphic Form Styling */
+  .login-form {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    padding: 60px 40px 40px;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
+    color: #fff;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+  }
+  
+  /*  Semi-Transparent Glass Effect */
+  .login-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    transform: skewX(-26deg);
+    transform-origin: bottom left;
+    border-radius: 12px;
+    pointer-events: none;
+  }
+  
+  /*  Avatar Icon */
+  .login-avatar {
+    position: absolute;
+    top: -50px;
+    left: calc(50% - 50px);
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  /*  Title Styling */
+  .login-title {
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: #ff652f;
+    font-weight: bold;
+  }
+  
+  /*  Input Fields */
+  .input-group {
+    position: relative;
+    margin-bottom: 25px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 2px solid #fff;
+    outline: none;
+    background-color: transparent;
+    color: #fff;
+  }
+  
+  /*  Floating Label Animation */
+  .input-group label {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.3s ease-out;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  /*  Fix: Ensure Label Moves Up */
+  .input-group input:focus + label,
+  .input-group input:not(:placeholder-shown) + label {
+    transform: translateY(-18px);
+    color: #ff652f;
+    font-size: 0.8rem;
+  }
+  
+  /*  Placeholder Fix */
+  .input-group input::placeholder {
+    opacity: 0;
+  }
+  
+  /*  Login Button */
+  .login-button {
+    display: block;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: #ff652f;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    font-weight: bold;
+  }
+  
+  /*  Hover Effect */
+  .login-button:hover {
+    background: #e65c00;
+  }
+  
+
+  .guest-login-button {
+    display: block;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    font-weight: bold;
+    /*margin-top: 10px;*/
+    text-decoration: underline;
+}
+
+/*  Hover Effect */
+.guest-login-button:hover {
+  color: grey;
+}

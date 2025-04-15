@@ -1,0 +1,133 @@
+.profile-container {
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+  
+  .profile-heading {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: orange;
+    text-align: center;
+  }
+  
+  .profile-content {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .profile-avatar-section {
+    text-align: center;
+    flex: 0 0 160px;
+  }
+  
+  .profile-avatar {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #00aaff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .profile-avatar:hover {
+    transform: scale(1.05);
+  }
+  
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .avatar-btn {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    border: none;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .avatar-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+  }
+  
+  .avatar-hint {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+  }
+  
+  .profile-form {
+    flex: 1;
+    min-width: 280px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #444;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border 0.3s;
+  }
+  
+  .form-group input:focus {
+    border-color: #00aaff;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .update-btn {
+    background-color: #00aaff;
+    color: white;
+    padding: 10px 26px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .update-btn:hover {
+    background-color: #008fcc;
+  }
+  
+  .profile-message {
+    margin-top: 20px;
+    color: #28a745;
+    font-weight: 600;
+  }
+  

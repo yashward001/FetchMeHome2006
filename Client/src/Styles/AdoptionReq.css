@@ -1,0 +1,183 @@
+.req-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Centers the entire container */
+}
+
+.form-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping to the next line if the screen is too small */
+    justify-content: center; /* Align items at the center */
+    gap: 20px; /* Space between cards */
+    max-width: 90%; /* Prevents overflow */
+}
+
+.form-child-container {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    width: 300px; /* Set a fixed width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center content */
+    display: flex;
+    flex-direction: column; /* Ensure child elements remain stacked */
+    align-items: center;
+    justify-content: space-between; /* Ensures spacing inside */
+}
+
+/* Pet name styling */
+.clickable-pet-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #f77f00;
+    text-align: center; /* Ensure text is centered */
+    margin-bottom: 10px;
+    display: block;
+    width: 100%; /* Ensures full-width centering */
+}
+/* Status styles */
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.status.Approved {
+    color: green;
+}
+
+.status.Pending {
+    color: orange;
+}
+
+/* Dropdown filter */
+.dropdown-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.req-filter-selection {
+    padding: 10px;
+    border: 1px solid #fca311;
+    border-radius: 5px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Buttons inside the adoption request */
+.request-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.request-buttons button {
+    background: #f77f00;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.request-buttons button:hover {
+    background: #e76f00;
+}
+
+/* Hide buttons when status is Approved */
+.hide-buttons {
+    display: none;
+}
+
+
+.requests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Card styling */
+  .request-card {
+    width: 350px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+  }
+  
+  /* Content inside card */
+  .pet-card-details p {
+    margin: 6px 0;
+  }
+  
+  /* Buttons styling */
+  .app-rej-btn {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .accept-request-btn,
+  .delete-request-btn,
+  .report-user-btn {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 90px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    white-space: nowrap;
+  }
+  
+  .accept-request-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .delete-request-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .report-user-btn {
+    background-color: #dc3545; /* same red as reject */
+    color: white;
+  }
+  
+  .report-user-btn:hover {
+    background-color: #c82333;
+  }
+  
+  
+  /* Image upload */
+  .image-upload-section {
+    margin-top: 10px;
+  }
+  
+  .image-upload-section label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .image-upload-section input[type="file"] {
+    border: 1px solid #ccc;
+    padding: 6px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  

@@ -1,0 +1,191 @@
+/* Main container for the form */
+.custom-adopt-form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vw;
+    max-width: 500px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    text-align: center;
+}
+
+/* Form heading */
+.custom-form-heading {
+    font-family: "Varela Round", sans-serif;
+    padding-bottom: 10px;
+    color: var(--orange);
+    border-bottom: 2px solid var(--orange);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Container for pet details */
+.form-pet-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Pet details box */
+.pet-details {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    border: 1px solid var(--orange);
+    width: 310px;
+    height: 120px;
+    margin-bottom: 17px;
+    align-items: center;
+}
+
+/* Pet image */
+.pet-pic img {
+    width: 150px;
+    height: 120px;
+    object-fit: cover;
+}
+
+/* Pet info text */
+.pet-info {
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.pet-info h2 {
+    font-family: "Varela Round", sans-serif;
+    color: var(--orange);
+    text-align: center;
+    margin: 5px 0;
+}
+
+.pet-info p {
+    font-family: "Varela Round", sans-serif;
+    color: var(--orange);
+}
+
+/* Form container */
+.custom-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Input field boxes */
+.custom-input-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+/* Labels for form fields */
+.custom-label {
+    font-family: "Varela Round", sans-serif;
+    color: var(--orange);
+    font-weight: bold;
+    margin-bottom: 3px;
+    display: block;
+}
+
+/* Text inputs */
+.custom-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 500px;
+}
+
+/* Submit button */
+.custom-cta-button {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: var(--orange);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 100px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-cta-button:hover {
+    background-color: var(--hoverorange);
+    transition: all 0.5s;
+}
+
+.custom-m-b {
+    margin-bottom: 20px;
+}
+
+/* Error message */
+.error-message {
+    color: #ff0000;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Popup overlay for background dimming */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Main Popup Container */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vw;
+    max-width: 500px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* Popup Content */
+.popup-content {
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+    background-color: #ff1900;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.close-btn i {
+    margin-left: 5px;
+}
+
+/* Error message in popup */
+.email-not-valid p {
+    font-family: "Varela Round", sans-serif;
+    color: rgb(231, 58, 58);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+

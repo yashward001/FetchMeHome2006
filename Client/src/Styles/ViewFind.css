@@ -1,0 +1,66 @@
+.find-section {
+    text-align: center;
+    padding: 50px;
+}
+
+.find-section h2 {
+    font-family: "Varela Round", sans-serif;
+    padding-bottom: 10px;
+    color: var(--orange);
+    border-bottom: 2px solid var(--orange);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.find-section img {
+    margin: 17px 0;
+    max-width: 60%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.find-section p {
+    font-family: "Varela Round", sans-serif;
+    color: var(--darkGrey);
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.find-section h3 {
+    color: var(--orange);
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.find-section ul {
+    font-family: "Varela Round", sans-serif;
+    color: var(--darkGrey);
+    list-style: none;
+    padding-left: 20px;
+}
+
+.find-section ol {
+    font-family: "Varela Round", sans-serif;
+    color: var(--darkGrey);
+    list-style: none;
+    padding-left: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: var(--orange);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 100px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    margin-top: 10px;
+}
+
+.cta-button:hover {
+    background-color: var(--hoverorange);
+    cursor: pointer;
+    transition: all 0.5s;
+}

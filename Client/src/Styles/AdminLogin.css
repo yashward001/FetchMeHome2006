@@ -1,0 +1,61 @@
+.login-body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../Assets/catadmin.jpg') no-repeat center center/cover;
+    /* background: url('../Assets/catlogin.jpg') no-repeat center center/cover; */
+    /* background-image: linear-gradient(to bottom right, var(--hoverorange), var(--Lightorange)); */
+}
+
+.login-container {
+    width: 300px;
+    margin: auto auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container h2 {
+    font-size: 1.5rem;
+    color: var(--orange);
+    margin-bottom: 10px;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-container input:focus {
+    border: 1px solid var(--orange);
+}
+
+.login-container button {
+    background-color: var(--orange);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.login-container button:hover {
+    background-color: var(--hoverorange);
+}  
+
+.error-message {
+    color: #ff0000;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
