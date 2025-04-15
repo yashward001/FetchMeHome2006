@@ -3,85 +3,83 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../../Styles/LocationPicker.css"; 
 
-const API_KEY = process.env.API_KEY; 
-
 const LocationPicker = ({ setLastSeenLocation }) => {
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [nearestLocation, setNearestLocation] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const mapRef = useRef(null);
-    const mapContainerRef = useRef(null); // Ref for the map container
+    const mapContainerRef = useRef(null);
+    const markerRef = useRef(null);
 
     // Function to initialize the map
     const initializeMap = () => {
         if (mapRef.current) {
-            mapRef.current.remove(); // Destroy the existing map instance before reinitializing
+            mapRef.current.remove();
             mapRef.current = null;
         }
 
         if (!mapContainerRef.current) return;
 
-        const sw = L.latLng(1.144, 103.535);
-        const ne = L.latLng(1.494, 104.502);
-        const bounds = L.latLngBounds(sw, ne);
+        // Create map centered on default location (Singapore)
+        const map = L.map(mapContainerRef.current).setView([1.3521, 103.8198], 13);
 
-        const map = L.map(mapContainerRef.current, {
-            center: L.latLng(1.2868108, 103.8545349),
-            zoom: 16,
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Add Leaflet default icon path fix
+        const defaultIcon = L.icon({
+            iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        L.Marker.prototype.options.icon = defaultIcon;
+
+        // Function to handle map clicks
+        map.on('click', function (e) {
+            const { lat, lng } = e.latlng;
+            setSelectedLocation({ lat, lng });
+            
+            // Update or create marker
+            if (markerRef.current) {
+                markerRef.current.setLatLng([lat, lng]);
+            } else {
+                markerRef.current = L.marker([lat, lng]).addTo(map);
+            }
+            
+            // Get address using reverse geocoding from OpenStreetMap
+            fetchLocationName(lat, lng);
         });
 
-        map.setMaxBounds(bounds);
+        mapRef.current = map;
+    };
 
-        L.tileLayer(
-            "https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png",
-            {
-                detectRetina: true,
-                maxZoom: 19,
-                minZoom: 11,
-                attribution:
-                    '<img src="https://www.onemap.gov.sg/web-assets/images/logo/om_logo.png" style="height:20px;width:20px;"/>&nbsp;' +
-                    '<a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener noreferrer">OneMap</a>&nbsp;&copy;&nbsp;contributors&nbsp;&#124;&nbsp;' +
-                    '<a href="https://www.sla.gov.sg/" target="_blank" rel="noopener noreferrer">Singapore Land Authority</a>',
+    // Fetch location name from coordinates using OpenStreetMap Nominatim
+    const fetchLocationName = async (lat, lng) => {
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
+                { headers: { 'Accept-Language': 'en' } }
+            );
+            const data = await response.json();
+            
+            if (data && data.display_name) {
+                setNearestLocation(data.display_name);
+                setLastSeenLocation(data.display_name);
+            } else {
+                setNearestLocation("Location selected, but address not found");
+                setLastSeenLocation("Location selected");
             }
-        ).addTo(map);
-
-        // Function to fetch reverse geolocation data
-        const fetchNearestLocation = async (lat, lng) => {
-            try {
-                const response = await fetch(
-                    `https://www.onemap.gov.sg/api/public/revgeocode?location=${lat},${lng}&buffer=40&addressType=All&otherFeatures=N`,
-                    {
-                        method: "GET",
-                        headers: {
-                            Authorization: `${API_KEY}`,
-                        },
-                    }
-                );
-                const data = await response.json();
-                if (data.GeocodeInfo && data.GeocodeInfo.length > 0) {
-                    const nearest = data.GeocodeInfo[0];
-                    setNearestLocation(
-                        `${nearest.BLOCK} ${nearest.ROAD}, ${nearest.BUILDINGNAME}, Postal: ${nearest.POSTALCODE}`
-                    );
-                    setLastSeenLocation(
-                        `${nearest.BLOCK} ${nearest.ROAD}, ${nearest.BUILDINGNAME}, Postal: ${nearest.POSTALCODE}`
-                    );
-                } else {
-                    setNearestLocation("No address found");
-                    setLastSeenLocation("No address found");
-                }
-            } catch (error) {
-                console.error("Error fetching reverse geolocation:", error);
-            }
-        };
-
-        // Enable user to select geolocation
-        map.on("click", function (e) {
-            setSelectedLocation({ lat: e.latlng.lat, lng: e.latlng.lng });
-            fetchNearestLocation(e.latlng.lat, e.latlng.lng);
-        });
-
-        mapRef.current = map; // Store reference to prevent re-init
+        } catch (error) {
+            console.error("Error fetching location name:", error);
+            setNearestLocation("Error getting location name");
+            setLastSeenLocation("Location selected");
+        }
     };
 
     // Open modal and initialize map
@@ -96,34 +94,43 @@ const LocationPicker = ({ setLastSeenLocation }) => {
     };
 
     return (
-        <div>
-            <button onClick={handleOpenPopup}>Select Location</button>
+        <div className="location-picker-wrapper">
+            <button 
+                type="button" 
+                onClick={handleOpenPopup} 
+                className="location-picker-button"
+            >
+                <i className="fa fa-map-marker" style={{ marginRight: '8px' }}></i>
+                Select Location
+            </button>
+            
             {showPopup && (
                 <div className="popup-overlay">
                     <div className="popup-box">
                         <h2>Select Location on Map</h2>
+                        <p className="map-instruction">Click anywhere on the map to select a location</p>
                         <div
                             ref={mapContainerRef}
-                            style={{ height: "400px", width: "100%" }}
+                            className="map-container"
                         ></div>
-                        <button onClick={handleClosePopup}>Confirm</button>
+                        <div className="popup-actions">
+                            <button onClick={handleClosePopup} className="confirm-button">
+                                Confirm Location
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
+            
             <input
                 type="text"
                 value={nearestLocation}
                 readOnly
                 placeholder="Selected location will appear here"
-                style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+                className="location-input"
             />
         </div>
     );
 };
 
 export default LocationPicker;
-
-
-
-
-

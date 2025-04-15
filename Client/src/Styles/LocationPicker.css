@@ -1,39 +1,136 @@
-/* Overlay for popup */
+/* Location Picker Styling */
+.location-picker-wrapper {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.location-picker-button {
+    background-color: #ff8c00;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.location-picker-button:hover {
+    background-color: #e67e00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.location-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+.location-input:focus {
+    border-color: #ff8c00;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+    background-color: white;
+}
+
+/* Map popup styling */
 .popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-/* Popup box */
 .popup-box {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 500px;
-    max-width: 90%;
-    text-align: center;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Close button */
-.popup-box button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #007bff;
+.popup-box h2 {
+    color: #ff8c00;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: "Varela Round", sans-serif;
+    font-size: 24px;
+}
+
+.map-instruction {
+    text-align: center;
+    color: #666;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.map-container {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    border: 2px solid #eee;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.confirm-button {
+    padding: 12px 25px;
+    background-color: #ff8c00;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease;
 }
 
-.popup-box button:hover {
-    background-color: #0056b3;
+.confirm-button:hover {
+    background-color: #e67e00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Make sure Leaflet controls have proper z-index */
+.leaflet-top,
+.leaflet-bottom {
+    z-index: 1001 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .popup-box {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .map-container {
+        height: 300px;
+    }
 }

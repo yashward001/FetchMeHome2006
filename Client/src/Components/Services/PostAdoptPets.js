@@ -126,21 +126,34 @@ const PostAdoptPets = () => {
 
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="input-box">
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <label>Pet Name:</label>
+          <input 
+            type="text" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            placeholder="Enter pet name"
+          />
         </div>
 
         <div className="input-box">
           <label>Pet Age:</label>
-          <input type="text" value={age} onChange={(e) => setAge(e.target.value)} />
+          <input 
+            type="text" 
+            value={age} 
+            onChange={(e) => setAge(e.target.value)}
+            placeholder="E.g. 3 years, 6 months" 
+          />
         </div>
 
         <div className="input-box">
-          <label>Picture:</label>
-          <label className="file-input-label">
-            <span className="file-input-text">{fileName || "Choose a Picture"}</span>
-            <input className="file-input" type="file" accept="image/*" onChange={handleFileChange} />
-          </label>
+          <label>Pet Photo:</label>
+          <div className="file-input-container">
+            <label className="file-input-label">
+              <span className="file-input-text">{fileName || "Choose a Picture"}</span>
+              <input className="file-input" type="file" accept="image/*" onChange={handleFileChange} />
+            </label>
+            {fileName && <p className="selected-file">{fileName}</p>}
+          </div>
         </div>
 
         {/* Integrated Location Picker for Area */}
@@ -150,9 +163,12 @@ const PostAdoptPets = () => {
         </div>
 
         <div className="filter-selection-service">
-          <label>Type:</label>
-          <select value={type} onChange={(event) => setType(event.target.value)}>
-            <option value="None">None</option>
+          <label>Pet Type:</label>
+          <select 
+            value={type} 
+            onChange={(event) => setType(event.target.value)}
+          >
+            <option value="None">Select pet type</option>
             <option value="Dog">Dog</option>
             <option value="Cat">Cat</option>
             <option value="Rabbit">Rabbit</option>
@@ -164,22 +180,37 @@ const PostAdoptPets = () => {
 
         <div className="input-box">
           <label>Description:</label>
-          <textarea rows="4" value={justification} onChange={(e) => setJustification(e.target.value)}></textarea>
+          <textarea 
+            rows="4" 
+            value={justification} 
+            onChange={(e) => setJustification(e.target.value)}
+            placeholder="Describe your pet's personality, habits, and why you're putting them up for adoption"
+          ></textarea>
         </div>
 
         <h3>Contact Information</h3>
 
         <div className="input-box">
           <label>Email:</label>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input 
+            type="text" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your.email@gmail.com" 
+          />
+          {emailError && <p className="error-message">Please provide a valid Gmail address.</p>}
         </div>
 
         <div className="input-box">
-          <label>Ph.No:</label>
-          <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <label>Phone Number:</label>
+          <input 
+            type="tel" 
+            value={phone} 
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Your contact number" 
+          />
         </div>
 
-        {emailError && <p className="error-message">Please provide a valid email address.</p>}
         {formError && <p className="error-message">Please fill out all fields correctly.</p>}
 
         <button type="submit" className="cta-button" disabled={isSubmitting}>
@@ -189,11 +220,12 @@ const PostAdoptPets = () => {
         {showPopup && (
           <div className="popup">
             <div className="popup-content">
-              <h4>Application Submitted! View your listing in the Adopt Tab!</h4>
+              <h4>Pet Submitted Successfully!</h4>
+              <p>Your pet has been posted for adoption. You can view your listing in the Adopt Tab.</p>
+              <button onClick={togglePopup} className="close-btn">
+                Close <i className="fa fa-times"></i>
+              </button>
             </div>
-            <button onClick={togglePopup} className="close-btn">
-              Close <i className="fa fa-times"></i>
-            </button>
           </div>
         )}
       </form>

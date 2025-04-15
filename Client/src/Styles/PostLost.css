@@ -1,178 +1,351 @@
+/* Enhanced styling for Lost Pet Form */
 .post-lost-pet-section {
     text-align: center;
-    padding: 45px;
-    margin-right : 100px;
-
-    width: 45vw;
-    /* max-width: 40vw;
-    margin-left:80px; */
-}
-
-.post-lost-pet-section h2 {
+    padding: 40px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+  }
+  
+  .post-lost-pet-section h2 {
     font-family: "Varela Round", sans-serif;
     padding-bottom: 10px;
-    color: var(--orange);
-    border-bottom: 2px solid var(--orange);
+    color: #ff8c00;
+    border-bottom: 2px solid #ff8c00;
     font-size: 32px;
-    margin-bottom: 20px;
-}
-
-.post-lost-pet-section img {
-    max-width:60%;
-    border-radius: 30px;
-    margin-bottom:45px;
-}
-
-.post-lost-pet-section p {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .post-lost-pet-section img {
+    max-width: 250px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-lost-pet-section p {
     font-family: "Varela Round", sans-serif;
-    color: var(--darkGrey);
+    color: #333;
     font-size: 16px;
     margin-bottom: 20px;
-}
-
-.post-lost-pet-section h3 {
+    line-height: 1.6;
+  }
+  
+  .post-lost-pet-section h3 {
     font-family: "Varela Round", sans-serif;
-    color: var(--orange);
-    font-size: 20px;
-    margin-top: 20px;
-}
-
-.post-lost-pet-section label {
+    color: #ff8c00;
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .post-lost-pet-section form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .input-box {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .input-box label {
     font-family: "Varela Round", sans-serif;
-    color: var(--orange);
+    color: #555;
     font-weight: bold;
     display: block;
-}
-
-.input-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.post-lost-pet-section input[type="text"],
-.post-lost-pet-section input[type="email"],
-.post-lost-pet-section input[type="tel"],
-.post-lost-pet-section textarea {
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  
+  .post-lost-pet-section input[type="text"],
+  .post-lost-pet-section input[type="email"],
+  .post-lost-pet-section input[type="tel"],
+  .post-lost-pet-section textarea,
+  .post-lost-pet-section select {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 500px;
-    margin: 7px 0;
-}
-
-.post-lost-pet-section textarea {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+  }
+  
+  .post-lost-pet-section input[type="text"]:focus,
+  .post-lost-pet-section input[type="email"]:focus,
+  .post-lost-pet-section input[type="tel"]:focus,
+  .post-lost-pet-section textarea:focus,
+  .post-lost-pet-section select:focus {
+    border-color: #ff8c00;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+    background-color: white;
+  }
+  
+  .post-lost-pet-section textarea {
     resize: vertical;
-}
-
-.filter-selection-service {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 25px;
-}
-
-.filter-selection-service select {
+    min-height: 100px;
+  }
+  
+  .filter-selection-service {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .filter-selection-service label {
     font-family: "Varela Round", sans-serif;
-    font-size: 14px;
-    margin: 10px 0;
-    border-radius: 100px;
-    border: none;
-    padding: 8px 8px;
-    color: var(--white);
-    background-color: var(--orange);
-}
-
-.cta-button {
+    color: #555;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  
+  .filter-selection-service select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    appearance: menulist;
+    cursor: pointer;
+  }
+  
+  .file-input-label {
     display: inline-block;
-    padding: 10px 16px;
-    background-color: var(--orange);
-    color: var(--white);
+    padding: 12px 20px;
+    background-color: #ff8c00;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .file-input-label:hover {
+    background-color: #e67e00;
+  }
+  
+  .file-input {
+    display: none;
+  }
+  
+  .file-input-text {
+    display: inline-block;
+    color: white;
+    font-weight: normal;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #ff8c00;
+    color: white;
     text-decoration: none;
-    border-radius: 100px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cta-button:hover {
+    background-color: #e67e00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .cta-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Popup styling */
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .popup-content h4 {
+    color: #ff8c00;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .close-btn {
+    background-color: #ff8c00;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s;
-    border: none;
-    margin-top: 10px;
-}
-
-.cta-button:hover {
-    background-color: var(--hoverorange);
-    cursor: pointer;
-    transition: all 0.5s;
-}
-
-.file-input-label {
-    display: inline-block;
-    font-family: "Varela Round", sans-serif;
+  }
+  
+  .close-btn:hover {
+    background-color: #e67e00;
+  }
+  
+  .close-btn i {
+    margin-left: 5px;
+  }
+  
+  .error-message {
+    color: #e74c3c;
     font-size: 14px;
-    margin: 10px 0;
-    border-radius: 100px;
+    margin: 5px 0 15px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  /* Location picker improvements */
+  .location-picker-button {
+    background-color: #ff8c00;
+    color: white;
     border: none;
-    padding: 8px 20px;
-    color: var(--white);
-    background-color: var(--orange);
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    max-width: 165px;
-    overflow: hidden;
-    max-height: 33px;
-}
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .location-picker-button:hover {
+    background-color: #e67e00;
+    transform: translateY(-2px);
+  }
+  
+  .popup-box {
+    padding: 30px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .popup-box h2 {
+    color: #ff8c00 !important;
+    margin-bottom: 20px !important;
+  }
 
-.file-input-label:hover {
-    background-color: var(--hoverorange);
-}
-
-.file-input {
-    display: none;
-}
-
-.file-input-text {
-    display: inline-block;
-    color: var(--white);
-    margin-right: 10px;
-}
-
+  /* Improved popup styling */
 .popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.popup-content {
+    z-index: 9999; /* Higher z-index to ensure it appears on top */
+  }
+  
+  .popup-content {
     background-color: white;
-    padding: 20px;
-    max-width: 80%;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-    overflow-x: hidden;
-    word-wrap: break-word;
-}
-
-.close-btn {
-    background-color: #ff1900;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    position: relative; /* Ensure relative positioning */
+    margin: 0 auto; /* Center horizontally */
+    animation: popupFadeIn 0.3s ease-out;
+  }
+  
+  @keyframes popupFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .popup-content h4 {
+    color: #ff8c00;
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-family: "Varela Round", sans-serif;
+  }
+  
+  .popup-content p {
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-size: 16px;
+    font-family: "Varela Round", sans-serif;
+  }
+  
+  .close-btn {
+    background-color: #ff8c00;
     border: none;
     color: white;
-    padding: 8px 15px;
+    padding: 12px 24px;
+    border-radius: 8px;
     margin-top: 10px;
     cursor: pointer;
-}
-
-.close-btn i {
+    font-weight: bold;
+    transition: background-color 0.3s;
+    font-size: 16px;
+  }
+  
+  .close-btn:hover {
+    background-color: #e67e00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close-btn i {
     margin-left: 5px;
-}
-
-.error-message {
-    color: #ff0000;
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
+  }
+  
+  /* Make sure the form doesn't interfere with the popup */
+  .post-pet-section form,
+  .post-lost-pet-section form {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Ensure body doesn't scroll when popup is open */
+  body.popup-open {
+    overflow: hidden;
+  }
+  
+  /* The same styling should be applied to PostAdopt.css */

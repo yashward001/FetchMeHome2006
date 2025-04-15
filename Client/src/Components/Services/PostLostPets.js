@@ -23,7 +23,6 @@ const PostLostPets = () => {
       setEmailError(false);
       setFormError(false);
     }
-    // console.log(isSubmitting, name, petAge, lastSeenLocation)
   }, [isSubmitting]);
 
   const togglePopup = () => {
@@ -115,38 +114,54 @@ const PostLostPets = () => {
 
   return (
     <section className="post-lost-pet-section">
-      <h2>Post a Lost Pet</h2>
+      <h2>Report a Lost Pet</h2>
       <img src={lostPet} alt="Lost Pet Poster" />
 
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="input-box">
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <label>Pet Name:</label>
+          <input 
+            type="text" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            placeholder="Enter pet name"
+          />
         </div>
 
         <div className="input-box">
           <label>Pet Age:</label>
-          <input type="text" value={petAge} onChange={(e) => setPetAge(e.target.value)} />
+          <input 
+            type="text" 
+            value={petAge} 
+            onChange={(e) => setPetAge(e.target.value)} 
+            placeholder="E.g. 3 years, 6 months"
+          />
         </div>
 
         <div className="input-box">
-          <label>Picture:</label>
-          <label className="file-input-label">
-            <span className="file-input-text">{fileName || "Choose a Picture"}</span>
-            <input className="file-input" type="file" accept="image/*" onChange={handleFileChange} />
-          </label>
+          <label>Pet Photo:</label>
+          <div className="file-input-container">
+            <label className="file-input-label">
+              <span className="file-input-text">{fileName || "Choose a Picture"}</span>
+              <input className="file-input" type="file" accept="image/*" onChange={handleFileChange} />
+            </label>
+            {fileName && <p className="selected-file">{fileName}</p>}
+          </div>
         </div>
 
-        {/* ✅ Integrated Location Picker for Last Seen */}
+        {/* Integrated Location Picker for Last Seen */}
         <div className="input-box">
-          <label>Last Seen:</label>
+          <label>Last Seen Location:</label>
           <LocationPicker setLastSeenLocation={setLastSeenLocation} /> 
         </div>
 
         <div className="filter-selection-service">
-          <label>Type:</label>
-          <select value={type} onChange={(event) => setType(event.target.value)}>
-            <option value="None">None</option>
+          <label>Pet Type:</label>
+          <select 
+            value={type} 
+            onChange={(event) => setType(event.target.value)}
+          >
+            <option value="None">Select pet type</option>
             <option value="Dog">Dog</option>
             <option value="Cat">Cat</option>
             <option value="Rabbit">Rabbit</option>
@@ -158,36 +173,52 @@ const PostLostPets = () => {
 
         <div className="input-box">
           <label>Description:</label>
-          <textarea rows="4" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+          <textarea 
+            rows="4" 
+            value={description} 
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Describe your pet's appearance, distinctive features, behavior, etc."
+          ></textarea>
         </div>
 
         <h3>Contact Information</h3>
 
         <div className="input-box">
           <label>Email:</label>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input 
+            type="text" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            placeholder="your.email@gmail.com"
+          />
+          {emailError && <p className="error-message">Please provide a valid Gmail address.</p>}
         </div>
 
         <div className="input-box">
-          <label>Ph.No:</label>
-          <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <label>Phone Number:</label>
+          <input 
+            type="tel" 
+            value={phone} 
+            onChange={(e) => setPhone(e.target.value)} 
+            placeholder="Your contact number"
+          />
         </div>
 
-        {emailError && <p className="error-message">Please provide a valid email address.</p>}
         {formError && <p className="error-message">Please fill out all fields correctly.</p>}
 
         <button type="submit" className="cta-button" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit Lost Pet"}
+          {isSubmitting ? "Submitting..." : "Submit Lost Pet Report"}
         </button>
 
         {showPopup && (
           <div className="popup">
             <div className="popup-content">
-              <h4>Application Submitted! View your listing in the Find Tab!</h4>
+              <h4>Lost Pet Report Submitted Successfully!</h4>
+              <p>Your lost pet has been reported. You can view your listing in the Find Tab.</p>
+              <button onClick={togglePopup} className="close-btn">
+                Close <i className="fa fa-times"></i>
+              </button>
             </div>
-            <button onClick={togglePopup} className="close-btn">
-              Close <i className="fa fa-times"></i>
-            </button>
           </div>
         )}
       </form>
@@ -196,5 +227,3 @@ const PostLostPets = () => {
 };
 
 export default PostLostPets;
-
-
