@@ -5,225 +5,140 @@ import '../../Styles/PetViewer.css';
 
 const PetsViewer = (props) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedPet, setSelectedPet] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
-  const [showReport, setShowReport] = useState(false);
-  const [reportReason, setReportReason] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [reportSubmitted, setReportSubmitted] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-
-  // Check login status
+  const [showReportForm, setShowReportForm] = useState(false);
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  // Form state
+  const [reportEmail, setReportEmail] = useState("");
+  const [reportPhone, setReportPhone] = useState("");
+  const [reportImage, setReportImage] = useState(null);
+  
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    const userId = localStorage.getItem("userId");
+    setIsLoggedIn(!!userId);
   }, []);
-
-  // Add body class control for modals
-  useEffect(() => {
-    if (showPopup || showReport || showDetails) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-    
-    // Cleanup function
-    return () => {
-      document.body.classList.remove('modal-open');
-    };
-  }, [showPopup, showReport, showDetails]);
-
+  
   const openPopup = (pet) => {
-    if (!isLoggedIn) {
-      alert("Please log in to show interest in adopting this pet");
-      return;
-    }
     setSelectedPet(pet);
     setShowPopup(true);
   };
-
+  
   const closePopup = () => {
     setShowPopup(false);
     setSelectedPet(null);
   };
-
+  
+  const openDetails = () => {
+    setShowDetails(true);
+  };
+  
+  const closeDetails = () => {
+    setShowDetails(false);
+  };
+  
+  const openReportForm = () => {
+    setShowReportForm(true);
+  };
+  
+  const closeReportForm = () => {
+    setShowReportForm(false);
+    setReportEmail("");
+    setReportPhone("");
+    setReportImage(null);
+  };
+  
   const formatTimeAgo = (updatedAt) => {
     const date = new Date(updatedAt);
     return formatDistanceToNow(date, { addSuffix: true });
   };
-
-  const toggleSave = (e) => {
-    e.stopPropagation();
-    if (!isLoggedIn) {
-      alert("Please log in to save this pet");
-      return;
-    }
-    setIsSaved(!isSaved);
-    // Implement save functionality here
-  };
-
-  const openReportModal = (e) => {
-    e.stopPropagation();
-    if (!isLoggedIn) {
-      alert("Please log in to report this listing");
-      return;
-    }
-    setShowReport(true);
-  };
-
-  const closeReportModal = () => {
-    setShowReport(false);
-    setReportReason('');
-  };
-
-  const handleReport = async (e) => {
-    e.preventDefault();
-    
-    if (!reportReason.trim()) {
-      alert("Please provide a reason for reporting");
-      return;
-    }
-    
-    setIsLoading(true);
-    
+  
+  const handleReport = async (petId) => {
     try {
-      const response = await fetch(`http://localhost:4000/report/${props.pet._id}`, {
+      const reason = prompt("Why are you reporting this listing?");
+      if (reason === null) return;
+      if (!reason.trim()) {
+        alert("Please provide a short description.");
+        return;
+      }
+      const response = await fetch(`http://localhost:4000/report/${petId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reason: reportReason })
+        body: JSON.stringify({ reason })
       });
-
       if (!response.ok) throw new Error("Failed to report listing.");
-      
-      setReportSubmitted(true);
-      setTimeout(() => {
-        setShowReport(false);
-        setReportReason('');
-        setReportSubmitted(false);
-      }, 2000);
+      alert("Listing reported successfully. The admin will review it.");
     } catch (err) {
       console.error("Error reporting listing:", err);
       alert("Listing already reported! Please wait for the admin to review.");
-    } finally {
-      setIsLoading(false);
     }
-  };
-
-  const renderStatusBadge = (status) => {
-    let badgeClass = "status-badge";
-    
-    switch(status) {
-      case "Adopted":
-        badgeClass += " adopted";
-        break;
-      case "Pending":
-        badgeClass += " pending";
-        break;
-      case "Approved":
-        badgeClass += " available";
-        break;
-      default:
-        badgeClass += " default";
-    }
-    
-    return <span className={badgeClass}>{status}</span>;
-  };
-
-  const openDetailsModal = () => {
-    setShowDetails(true);
   };
   
-  // Handle clicking outside modals to close them
-  const handleOverlayClick = (e) => {
-    if (e.target.classList.contains('modal-overlay')) {
-      if (showPopup) closePopup();
-      if (showReport) closeReportModal();
-      if (showDetails) setShowDetails(false);
-    }
+  const handleVerifyPet = (e) => {
+    e.preventDefault();
+    openReportForm();
   };
-
+  
+  const handleFileChange = (e) => {
+    setReportImage(e.target.files[0]);
+  };
+  
+  const handleSubmitReport = async () => {
+    if (!reportEmail || !reportPhone || !reportImage) {
+      alert("Please fill all fields and select an image");
+      return;
+    }
+    
+    // Add your submit logic here
+    alert("Report submitted successfully!");
+    closeReportForm();
+  };
+  
   return (
-    <div className="pet-card">
-      <div className="pet-card-inner">
-        <div className="pet-card-front">
-          <div className="pet-card-header">
-            {renderStatusBadge(props.pet.status)}
-            <div className="pet-actions">
-              <button 
-                className={`save-button ${isSaved ? 'saved' : ''}`} 
-                onClick={toggleSave}
-                aria-label="Save pet"
-              >
-                <i className={`fa ${isSaved ? 'fa-heart' : 'fa-heart-o'}`}></i>
-              </button>
-            </div>
-          </div>
+    <>
+      <div className='pet-view-card'>
+        <div className='pet-card-pic'>
+          <img src={`http://localhost:4000/Assets/${props.pet.filename}`} alt={props.pet.name} />
+        </div>
+        <div className='pet-card-details'>
+          <h2>{props.pet.name}</h2>
+          <p><b>Type:</b> {props.pet.type}</p>
+          <p><b>Age:</b> {props.pet.age}</p>
+          <p><b>Location:</b> {props.pet.area}</p>
+          <p><b>Status:</b> {props.pet.status}</p>
+          <p>{formatTimeAgo(props.pet.updatedAt)}</p>
+        </div>
+        
+        <div className="card-actions">
+          <button className="view-details-btn" onClick={openDetails}>View Details</button>
           
-          <div className="pet-image-container">
-            <img 
-              src={`http://localhost:4000/Assets/${props.pet.filename}`} 
-              alt={props.pet.name} 
-              className="pet-image"
-            />
-          </div>
-          
-          <div className="pet-card-content">
-            <h3 className="pet-name">{props.pet.name}</h3>
-            <div className="pet-details">
-              <div className="pet-detail">
-                <i className="fa fa-paw pet-detail-icon"></i>
-                <span className="pet-detail-label">{props.pet.type}</span>
-              </div>
-              <div className="pet-detail">
-                <i className="fa fa-birthday-cake pet-detail-icon"></i>
-                <span className="pet-detail-label">{props.pet.age}</span>
-              </div>
-              <div className="pet-detail">
-                <i className="fa fa-map-marker pet-detail-icon"></i>
-                <span className="pet-detail-label">{props.pet.area}</span>
-              </div>
+          {props.pet.status !== "Adopted" && (
+            <div className='show-interest-btn'>
+              {isLoggedIn ? (
+                <>
+                  <button className="verify-pet-btn" onClick={handleVerifyPet}>
+                    Verify Pet <i className="fa fa-paw"></i>
+                  </button>
+                  <button className="report-btn" onClick={() => handleReport(props.pet._id)}>
+                    Report
+                  </button>
+                </>
+              ) : (
+                <p className="login-message">🚫 Login to do more actions</p>
+              )}
             </div>
-            
-            <div className="pet-timeago">
-              <i className="fa fa-clock-o"></i> {formatTimeAgo(props.pet.updatedAt)}
-            </div>
-
-            {props.pet.status !== "Adopted" && (
-              <div className="pet-card-actions">
-                <button 
-                  className="adopt-button" 
-                  onClick={() => openPopup(props.pet)}
-                  disabled={props.pet.status === "Adopted"}
-                >
-                  <i className="fa fa-paw"></i> Adopt Me
-                </button>
-                <button className="report-button" onClick={openReportModal}>
-                  <i className="fa fa-flag"></i>
-                </button>
-              </div>
-            )}
-          </div>
-          
-          <div className="pet-card-expand">
-            <button className="expand-button" onClick={openDetailsModal}>
-              View Details
-            </button>
-          </div>
+          )}
         </div>
       </div>
-
+      
       {/* Adoption Form Popup */}
       {showPopup && (
-        <div className="modal-overlay" onClick={handleOverlayClick}>
-          <div className="modal-container">
+        <div className="modal-overlay" onClick={closePopup}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Adoption Application</h2>
-              <button className="modal-close" onClick={closePopup}>
-                <i className="fa fa-times"></i>
-              </button>
+              <h3>Adoption Application</h3>
+              <button className="modal-close" onClick={closePopup}>×</button>
             </div>
             <div className="modal-content">
               <AdoptForm closeForm={closePopup} pet={selectedPet}/>
@@ -231,128 +146,144 @@ const PetsViewer = (props) => {
           </div>
         </div>
       )}
-
-      {/* Report Listing Modal */}
-      {showReport && (
-        <div className="modal-overlay" onClick={handleOverlayClick}>
-          <div className="modal-container report-modal">
-            <div className="modal-header">
-              <h2>Report This Listing</h2>
-              <button className="modal-close" onClick={closeReportModal}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            <div className="modal-content">
-              {reportSubmitted ? (
-                <div className="report-success">
-                  <i className="fa fa-check-circle"></i>
-                  <p>Report submitted successfully. The admin will review it.</p>
+      
+      {/* Pet Details Modal */}
+      {showDetails && (
+        <div className="modal-overlay" onClick={closeDetails}>
+          <div className="pet-details-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-close-btn" onClick={closeDetails}>×</div>
+            
+            <h2>{props.pet.name}</h2>
+            
+            <div className="details-content">
+              <div className="details-image">
+                <img src={`http://localhost:4000/Assets/${props.pet.filename}`} alt={props.pet.name} />
+                <div className="pet-status">{props.pet.status}</div>
+              </div>
+              
+              <div className="details-info">
+                <div className="info-section">
+                  <h3>Pet Information</h3>
+                  <div className="info-grid">
+                    <div className="info-item">
+                      <span className="info-label">Type:</span>
+                      <span className="info-value">{props.pet.type}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Age:</span>
+                      <span className="info-value">{props.pet.age}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Location:</span>
+                      <span className="info-value">{props.pet.area}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Posted:</span>
+                      <span className="info-value">{formatTimeAgo(props.pet.updatedAt)}</span>
+                    </div>
+                  </div>
                 </div>
-              ) : (
-                <form onSubmit={handleReport} className="report-form">
-                  <div className="form-group">
-                    <label htmlFor="reportReason">Why are you reporting this listing?</label>
-                    <textarea
-                      id="reportReason"
-                      value={reportReason}
-                      onChange={(e) => setReportReason(e.target.value)}
-                      placeholder="Please explain why you're reporting this listing..."
-                      required
-                    ></textarea>
+                
+                <div className="info-section">
+                  <h3>Description</h3>
+                  <p className="pet-description">{props.pet.justification || "No description available."}</p>
+                </div>
+                
+                <div className="info-section">
+                  <h3>Contact</h3>
+                  <div className="contact-buttons">
+                    <a href={`mailto:${props.pet.email}`} className="contact-btn email-btn">
+                      <i className="fa fa-envelope"></i> Email Owner
+                    </a>
+                    <a href={`tel:${props.pet.phone}`} className="contact-btn phone-btn">
+                      <i className="fa fa-phone"></i> Call Owner
+                    </a>
                   </div>
-                  <div className="form-actions">
-                    <button type="button" onClick={closeReportModal} className="cancel-button">
-                      Cancel
-                    </button>
-                    <button type="submit" className="submit-button" disabled={isLoading}>
-                      {isLoading ? 'Submitting...' : 'Submit Report'}
-                    </button>
-                  </div>
-                </form>
-              )}
+                </div>
+              </div>
             </div>
+            
+            {props.pet.status !== "Adopted" && isLoggedIn && (
+              <div className="details-actions">
+                <button 
+                  className="adopt-button" 
+                  onClick={() => {
+                    closeDetails();
+                    setTimeout(() => openPopup(props.pet), 300);
+                  }}
+                >
+                  <i className="fa fa-paw"></i> Adopt This Pet
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
-
-      {/* Pet Details Modal */}
-      {showDetails && (
-        <div className="modal-overlay" onClick={handleOverlayClick}>
-          <div className="modal-container details-modal" onClick={(e) => e.stopPropagation()}>
+      
+      {/* Report Form Modal */}
+      {showReportForm && (
+        <div className="modal-overlay" onClick={closeReportForm}>
+          <div className="report-form-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>{props.pet.name}</h2>
-              <button className="modal-close" onClick={() => setShowDetails(false)}>
-                <i className="fa fa-times"></i>
-              </button>
+              <h3>Report Found Pet</h3>
+              <button className="modal-close" onClick={closeReportForm}>×</button>
             </div>
-            <div className="modal-content">
-              <div className="details-content">
-                <div className="details-image">
-                  <img 
-                    src={`http://localhost:4000/Assets/${props.pet.filename}`} 
-                    alt={props.pet.name}
+            
+            <div className="report-form-content">
+              <div className="form-field">
+                <label htmlFor="report-email">Your Email</label>
+                <input 
+                  id="report-email"
+                  type="email" 
+                  placeholder="Your email address" 
+                  value={reportEmail}
+                  onChange={(e) => setReportEmail(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-field">
+                <label htmlFor="report-phone">Your Phone</label>
+                <input 
+                  id="report-phone"
+                  type="tel" 
+                  placeholder="Your phone number" 
+                  value={reportPhone}
+                  onChange={(e) => setReportPhone(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-field">
+                <label className="file-upload-label">
+                  <input 
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="file-input"
                   />
-                  <div className="details-status">
-                    {renderStatusBadge(props.pet.status)}
-                  </div>
-                </div>
-                <div className="details-info">
-                  <div className="details-section">
-                    <h4>Pet Information</h4>
-                    <div className="details-grid">
-                      <div className="details-item">
-                        <span className="details-label">Type:</span>
-                        <span className="details-value">{props.pet.type}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Age:</span>
-                        <span className="details-value">{props.pet.age}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Location:</span>
-                        <span className="details-value">{props.pet.area}</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="details-section">
-                    <h4>Justification</h4>
-                    <p className="details-description">{props.pet.justification}</p>
-                  </div>
-                  
-                  <div className="details-section">
-                    <h4>Contact Information</h4>
-                    <div className="details-contact">
-                      <a href={`mailto:${props.pet.email}`} className="contact-button email-button">
-                        <i className="fa fa-envelope"></i> Contact Owner
-                      </a>
-                      <a href={`tel:${props.pet.phone}`} className="contact-button phone-button">
-                        <i className="fa fa-phone"></i> Call Owner
-                      </a>
-                    </div>
-                  </div>
-                  
-                  {props.pet.status !== "Adopted" && (
-                    <div className="details-actions">
-                      <button 
-                        className="adopt-button wide-button" 
-                        onClick={() => {
-                          setShowDetails(false);
-                          setTimeout(() => openPopup(props.pet), 300);
-                        }}
-                        disabled={!isLoggedIn || props.pet.status === "Adopted"}
-                      >
-                        <i className="fa fa-paw"></i> Adopt This Pet
-                      </button>
-                    </div>
-                  )}
-                </div>
+                  <span className="upload-btn">
+                    <i className="fa fa-upload"></i> Choose Image
+                  </span>
+                  <span className="file-name">
+                    {reportImage ? reportImage.name : "No file selected"}
+                  </span>
+                </label>
+              </div>
+              
+              <div className="form-actions">
+                <button className="cancel-btn" onClick={closeReportForm}>Cancel</button>
+                <button 
+                  className="submit-btn" 
+                  onClick={handleSubmitReport}
+                  disabled={!reportEmail || !reportPhone || !reportImage}
+                >
+                  Submit Report
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

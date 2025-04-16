@@ -4,14 +4,12 @@ import "../../Styles/LostPetsViewer.css";
 
 const LostPetsViewer = ({ pet }) => {
   const [showUploadPopup, setShowUploadPopup] = useState(false);
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [uploadFile, setUploadFile] = useState(null);
   const [finderEmail, setFinderEmail] = useState("");
   const [finderPhone, setFinderPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
 
   // Check if user is logged in
   useEffect(() => {
@@ -25,7 +23,8 @@ const LostPetsViewer = ({ pet }) => {
     return isNaN(date) ? "Invalid Date" : formatDistanceToNow(date, { addSuffix: true });
   };
 
-  const handleUploadClick = () => {
+  const handleUploadClick = (e) => {
+    e.preventDefault();
     if (!isLoggedIn) {
       alert("Please log in to upload an image.");
       return;
@@ -34,24 +33,10 @@ const LostPetsViewer = ({ pet }) => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setUploadFile(file);
-    
-    // Create a preview URL for the image
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
-    }
+    setUploadFile(e.target.files[0]);
   };
 
-  const handleUploadSubmit = async (e) => {
-    e.preventDefault();
-    
+  const handleUploadSubmit = async () => {
     const finderId = localStorage.getItem("userId");
 
     if (!uploadFile || !finderEmail || !finderPhone) {
@@ -59,11 +44,16 @@ const LostPetsViewer = ({ pet }) => {
       return;
     }
 
+    if (!finderEmail.endsWith("@gmail.com")) {
+      alert("Please enter a valid email address (must end with @gmail.com).");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData();
     formData.append("petId", pet._id);
-    formData.append("finderId", finderId);
+    formData.append("finderId", finderId); 
     formData.append("finderEmail", finderEmail);
     formData.append("finderPhone", finderPhone);
     formData.append("image", uploadFile);
@@ -77,18 +67,11 @@ const LostPetsViewer = ({ pet }) => {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error);
 
-      setShowSuccess(true);
-      
-      // Reset the form after successful submission
-      setTimeout(() => {
-        setShowSuccess(false);
-        setShowUploadPopup(false);
-        setUploadFile(null);
-        setImagePreview(null);
-        setFinderEmail("");
-        setFinderPhone("");
-      }, 3000);
-      
+      alert("Report sent to pet owner!");
+      setShowUploadPopup(false);
+      setUploadFile(null);
+      setFinderEmail("");
+      setFinderPhone("");
     } catch (error) {
       console.error("Error uploading image:", error);
       alert("Error uploading image.");
@@ -97,280 +80,218 @@ const LostPetsViewer = ({ pet }) => {
     }
   };
 
-  const renderStatusBadge = (status) => {
-    let badgeClass = "status-badge";
-    
-    switch(status) {
-      case "Found":
-        badgeClass += " found";
-        break;
-      case "Missing":
-        badgeClass += " missing";
-        break;
-      default:
-        badgeClass += " default";
+  const handleReport = async () => {
+    const reason = prompt("Why are you reporting this lost pet listing?");
+    if (reason === null) return; // user canceled
+
+    if (!reason.trim()) {
+      alert("Please provide a short reason.");
+      return;
     }
-    
-    return <span className={badgeClass}>{status}</span>;
+
+    try {
+      const response = await fetch(`http://localhost:4000/reportLostPet/${pet._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason }),
+      });
+
+      if (!response.ok) throw new Error("Failed to report listing.");
+
+      alert("Lost pet listing reported. The admin will review it.");
+    } catch (error) {
+      console.error("Error reporting lost listing:", error);
+      alert("Failed to report listing.");
+    }
   };
 
-  // Close modal when clicking outside
-  const handleCloseModal = (e) => {
-    if (e.target.classList.contains('modal-overlay')) {
-      setShowUploadPopup(false);
-      setShowDetails(false);
-      setImagePreview(null);
-    }
+  const handleDetailsClick = () => {
+    setShowDetailsPopup(true);
   };
-
-  useEffect(() => {
-    // Add body class when modal is open to prevent scrolling
-    if (showUploadPopup || showDetails) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-    
-    // Cleanup function to ensure body class is removed
-    return () => {
-      document.body.classList.remove('modal-open');
-    };
-  }, [showUploadPopup, showDetails]);
 
   return (
-    <div className="lost-pet-card">
-      {/* Status Badge */}
-      <div className="pet-card-header">
-        {renderStatusBadge(pet.status)}
-        <div className="time-ago">
-          <i className="fa fa-clock-o"></i> {formatTimeAgo(pet.createdAt)}
+    <>
+      <div className="pet-view-card">
+        <div className="pet-card-pic">
+          <img 
+            src={pet.filename ? `http://localhost:4000/Assets/${pet.filename}` : "/default-image.jpg"} 
+            alt={pet.name} 
+            onError={(e) => (e.target.src = "/default-image.jpg")}
+          />
         </div>
-      </div>
-      
-      {/* Pet Image */}
-      <div className="pet-image-container">
-        <img
-          src={pet.filename ? `http://localhost:4000/Assets/${pet.filename}` : "/default-image.jpg"}
-          alt={pet.name}
-          className="pet-image"
-          onError={(e) => (e.target.src = "/default-image.jpg")}
-        />
-      </div>
-      
-      {/* Pet Details */}
-      <div className="pet-card-content">
-        <h3 className="pet-name">{pet.name}</h3>
+        <div className="pet-card-details">
+          <h2>{pet.name}</h2>
+          <p><b>Type:</b> {pet.type}</p>
+          <p><b>Age:</b> {pet.petAge}</p>
+          <p><b>Last Seen Location:</b> {pet.lastSeenLocation}</p>
+          <p><b>Status:</b> {pet.status}</p>
+          <p>{formatTimeAgo(pet.createdAt)}</p>
+        </div>
         
-        <div className="pet-details">
-          <div className="pet-detail">
-            <i className="fa fa-paw pet-detail-icon"></i>
-            <span className="pet-detail-label">{pet.type}</span>
-          </div>
+        <div className="card-actions">
+          <button className="view-details-btn" onClick={handleDetailsClick}>View Details</button>
           
-          <div className="pet-detail">
-            <i className="fa fa-birthday-cake pet-detail-icon"></i>
-            <span className="pet-detail-label">{pet.petAge}</span>
-          </div>
-        </div>
-        
-        <div className="pet-detail location-detail">
-          <i className="fa fa-map-marker pet-detail-icon"></i>
-          <span className="pet-detail-label">{pet.lastSeenLocation}</span>
-        </div>
-        
-        {/* Actions */}
-        <div className="pet-actions">
+          {/* Report or Upload Buttons */}
           {pet.status !== "Found" && (
-            <button className="found-button" onClick={handleUploadClick}>
-              <i className="fa fa-camera"></i> I Found This Pet
-            </button>
-          )}
-          
-          <button className="details-button" onClick={() => setShowDetails(true)}>
-            View Details
-          </button>
-        </div>
-      </div>
-      
-      {/* Upload Image Popup */}
-      {showUploadPopup && (
-        <div className="modal-overlay" onClick={handleCloseModal}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Report Found Pet</h3>
-              <button className="modal-close" onClick={() => {
-                setShowUploadPopup(false);
-                setImagePreview(null);
-              }}>
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-            
-            <div className="modal-content">
-              {showSuccess ? (
-                <div className="success-message">
-                  <i className="fa fa-check-circle"></i>
-                  <p>Report sent to pet owner!</p>
-                  <p className="success-subtitle">Thank you for helping reunite a pet with their family.</p>
-                </div>
+            <div className="show-interest-btn">
+              {isLoggedIn ? (
+                <>
+                  <button className="verify-pet-btn" onClick={handleUploadClick}>
+                    Verify Pet <i className="fa fa-upload"></i>
+                  </button>
+                  <button className="report-btn" onClick={handleReport}>
+                    Report
+                  </button>
+                </>
               ) : (
-                <form onSubmit={handleUploadSubmit} className="upload-form">
-                  <div className="form-group">
-                    <label htmlFor="finderEmail">Your Email</label>
-                    <input
-                      type="email"
-                      id="finderEmail"
-                      value={finderEmail}
-                      onChange={(e) => setFinderEmail(e.target.value)}
-                      required
-                      placeholder="Your email address"
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="finderPhone">Your Phone</label>
-                    <input
-                      type="tel"
-                      id="finderPhone"
-                      value={finderPhone}
-                      onChange={(e) => setFinderPhone(e.target.value)}
-                      required
-                      placeholder="Your phone number"
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Upload a Photo</label>
-                    <div className="file-upload-container">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="file-input"
-                        id="photo-upload"
-                      />
-                      <label htmlFor="photo-upload" className="file-upload-label">
-                        <i className="fa fa-upload"></i> Choose Image
-                      </label>
-                      <span className="selected-file-name">
-                        {uploadFile ? uploadFile.name : "No file selected"}
-                      </span>
-                    </div>
-                    
-                    {imagePreview && (
-                      <div className="image-preview">
-                        <img src={imagePreview} alt="Preview" />
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="form-actions">
-                    <button 
-                      type="button" 
-                      className="cancel-button"
-                      onClick={() => {
-                        setShowUploadPopup(false);
-                        setImagePreview(null);
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    <button 
-                      type="submit" 
-                      className="submit-button" 
-                      disabled={isSubmitting || !uploadFile || !finderEmail || !finderPhone}
-                    >
-                      {isSubmitting ? "Submitting..." : "Submit Report"}
-                    </button>
-                  </div>
-                </form>
+                <p className="login-message">🚫 Login to do more actions</p>
               )}
             </div>
-          </div>
+          )}
         </div>
-      )}
-      
-      {/* Pet Details Popup - fixed z-index */}
-      {showDetails && (
-        <div className="modal-overlay" onClick={handleCloseModal}>
-          <div className="modal-container details-modal" onClick={(e) => e.stopPropagation()}>
+      </div>
+
+      {/* Image Upload Pop-up */}
+      {showUploadPopup && (
+        <div className="modal-overlay" onClick={() => setShowUploadPopup(false)}>
+          <div className="report-form-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>{pet.name}</h3>
-              <button className="modal-close" onClick={() => setShowDetails(false)}>
-                <i className="fa fa-times"></i>
-              </button>
+              <h3>Report Found Pet</h3>
+              <button className="modal-close" onClick={() => setShowUploadPopup(false)}>×</button>
             </div>
             
-            <div className="modal-content">
-              <div className="details-content">
-                <div className="details-image">
-                  <img
-                    src={pet.filename ? `http://localhost:4000/Assets/${pet.filename}` : "/default-image.jpg"}
-                    alt={pet.name}
-                    onError={(e) => (e.target.src = "/default-image.jpg")}
+            <div className="report-form-content">
+              <div className="form-field">
+                <label htmlFor="finder-email">Your Email</label>
+                <input 
+                  id="finder-email"
+                  type="email" 
+                  placeholder="Your email address" 
+                  value={finderEmail}
+                  onChange={(e) => setFinderEmail(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-field">
+                <label htmlFor="finder-phone">Your Phone</label>
+                <input 
+                  id="finder-phone"
+                  type="tel" 
+                  placeholder="Your phone number" 
+                  value={finderPhone}
+                  onChange={(e) => setFinderPhone(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-field">
+                <label className="file-upload-label">
+                  <input 
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="file-input"
                   />
-                  <div className="details-status">
-                    {renderStatusBadge(pet.status)}
-                  </div>
-                </div>
-                
-                <div className="details-info">
-                  <div className="details-section">
-                    <h4>Pet Information</h4>
-                    <div className="details-grid">
-                      <div className="details-item">
-                        <span className="details-label">Type:</span>
-                        <span className="details-value">{pet.type}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Age:</span>
-                        <span className="details-value">{pet.petAge}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Last Seen:</span>
-                        <span className="details-value">{pet.lastSeenLocation}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Posted:</span>
-                        <span className="details-value">{formatTimeAgo(pet.createdAt)}</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="details-section">
-                    <h4>Description</h4>
-                    <p className="details-description">{pet.description}</p>
-                  </div>
-                  
-                  <div className="details-section">
-                    <h4>Contact Information</h4>
-                    <div className="details-contact">
-                      <a href={`mailto:${pet.email}`} className="contact-button email-button">
-                        <i className="fa fa-envelope"></i> Email Owner
-                      </a>
-                      <a href={`tel:${pet.phone}`} className="contact-button phone-button">
-                        <i className="fa fa-phone"></i> Call Owner
-                      </a>
-                    </div>
-                  </div>
-                  
-                  {pet.status !== "Found" && (
-                    <div className="details-actions">
-                      <button className="found-button full-width" onClick={() => {
-                        setShowDetails(false);
-                        setTimeout(() => handleUploadClick(), 300);
-                      }}>
-                        <i className="fa fa-camera"></i> I Found This Pet
-                      </button>
-                    </div>
-                  )}
-                </div>
+                  <span className="upload-btn">
+                    <i className="fa fa-upload"></i> Choose Image
+                  </span>
+                  <span className="file-name">
+                    {uploadFile ? uploadFile.name : "No file selected"}
+                  </span>
+                </label>
+              </div>
+              
+              <div className="form-actions">
+                <button className="cancel-btn" onClick={() => setShowUploadPopup(false)}>Cancel</button>
+                <button 
+                  className="submit-btn" 
+                  onClick={handleUploadSubmit}
+                  disabled={isSubmitting || !finderEmail || !finderPhone || !uploadFile}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Report"}
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
-    </div>
+
+      {/* Details Modal */}
+      {showDetailsPopup && (
+        <div className="modal-overlay" onClick={() => setShowDetailsPopup(false)}>
+          <div className="pet-details-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-close-btn" onClick={() => setShowDetailsPopup(false)}>×</div>
+            
+            <h2>{pet.name}</h2>
+            
+            <div className="details-content">
+              <div className="details-image">
+                <img 
+                  src={pet.filename ? `http://localhost:4000/Assets/${pet.filename}` : "/default-image.jpg"} 
+                  alt={pet.name}
+                  onError={(e) => {e.target.src = "/default-image.jpg"}}
+                />
+                <div className="pet-status">{pet.status}</div>
+              </div>
+              
+              <div className="details-info">
+                <div className="info-section">
+                  <h3>Pet Information</h3>
+                  <div className="info-grid">
+                    <div className="info-item">
+                      <span className="info-label">Type:</span>
+                      <span className="info-value">{pet.type}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Age:</span>
+                      <span className="info-value">{pet.petAge}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Last Seen:</span>
+                      <span className="info-value">{pet.lastSeenLocation}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Posted:</span>
+                      <span className="info-value">{formatTimeAgo(pet.createdAt)}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="info-section">
+                  <h3>Description</h3>
+                  <p className="pet-description">{pet.description || "No description available."}</p>
+                </div>
+                
+                <div className="info-section">
+                  <h3>Contact</h3>
+                  <div className="contact-buttons">
+                    <a href={`mailto:${pet.email}`} className="contact-btn email-btn">
+                      <i className="fa fa-envelope"></i> Email Owner
+                    </a>
+                    <a href={`tel:${pet.phone}`} className="contact-btn phone-btn">
+                      <i className="fa fa-phone"></i> Call Owner
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {pet.status !== "Found" && isLoggedIn && (
+              <div className="details-actions">
+                <button 
+                  className="verify-button" 
+                  onClick={() => {
+                    setShowDetailsPopup(false);
+                    setTimeout(() => setShowUploadPopup(true), 300);
+                  }}
+                >
+                  <i className="fa fa-camera"></i> I Found This Pet
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
