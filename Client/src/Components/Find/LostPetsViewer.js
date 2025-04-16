@@ -140,18 +140,18 @@ const LostPetsViewer = ({ pet }) => {
         
         <div className="pet-details">
           <div className="pet-detail">
-            <span className="pet-detail-icon type-icon"></span>
+            <i className="fa fa-paw pet-detail-icon"></i>
             <span className="pet-detail-label">{pet.type}</span>
           </div>
           
           <div className="pet-detail">
-            <span className="pet-detail-icon age-icon"></span>
+            <i className="fa fa-birthday-cake pet-detail-icon"></i>
             <span className="pet-detail-label">{pet.petAge}</span>
           </div>
         </div>
         
         <div className="pet-detail location-detail">
-          <span className="pet-detail-icon location-icon"></span>
+          <i className="fa fa-map-marker pet-detail-icon"></i>
           <span className="pet-detail-label">{pet.lastSeenLocation}</span>
         </div>
         

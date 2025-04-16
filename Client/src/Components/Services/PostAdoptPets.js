@@ -18,6 +18,8 @@ const PostAdoptPets = () => {
   const [fileName, setFileName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [formStep, setFormStep] = useState(1);
+  const [errors, setErrors] = useState({});
 
   // Get user data on component mount
   useEffect(() => {
@@ -58,6 +60,77 @@ const PostAdoptPets = () => {
     }
   };
 
+  const validateStep1 = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    if (!name) {
+      newErrors.name = "Pet name is required";
+      isValid = false;
+    }
+
+    if (!age) {
+      newErrors.age = "Pet age is required";
+      isValid = false;
+    }
+
+    if (type === "None") {
+      newErrors.type = "Please select a pet type";
+      isValid = false;
+    }
+
+    if (!picture) {
+      newErrors.picture = "Please upload a picture of your pet";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const validateStep2 = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    if (!area) {
+      newErrors.area = "Location is required";
+      isValid = false;
+    }
+
+    if (!justification) {
+      newErrors.justification = "Description is required";
+      isValid = false;
+    }
+
+    if (!email) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!isEmailValid(email)) {
+      newErrors.email = "Please enter a valid Gmail address";
+      isValid = false;
+    }
+
+    if (!phone) {
+      newErrors.phone = "Phone number is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const nextStep = () => {
+    if (validateStep1()) {
+      setFormStep(2);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const prevStep = () => {
+    setFormStep(1);
+    window.scrollTo(0, 0);
+  };
+
   const resetForm = () => {
     setName("");
     setAge("");
@@ -68,33 +141,20 @@ const PostAdoptPets = () => {
     setPicture(null);
     setFileName("");
     setPreviewUrl(null);
+    setFormStep(1);
+    setErrors({});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateStep2()) {
+      return;
+    }
+
     const userId = localStorage.getItem("userId");
     if (!userId) {
       alert("User is not logged in! Please log in first.");
-      return;
-    }
-
-    if (
-      !name ||
-      !age ||
-      !area || 
-      !justification ||
-      !email ||
-      !phone ||
-      !picture ||
-      type === "None"
-    ) {
-      setFormError(true);
-      return;
-    }
-
-    if (!isEmailValid(email)) {
-      setEmailError(true);
       return;
     }
 
@@ -137,137 +197,189 @@ const PostAdoptPets = () => {
 
   return (
     <section className="post-pet-section">
+      <div className="form-progress">
+        <div className="progress-steps">
+          <div className={`progress-step ${formStep >= 1 ? 'active' : ''}`}>
+            <div className="step-number">1</div>
+            <div className="step-label">Pet Details</div>
+          </div>
+          <div className="progress-line"></div>
+          <div className={`progress-step ${formStep >= 2 ? 'active' : ''}`}>
+            <div className="step-number">2</div>
+            <div className="step-label">Contact Info</div>
+          </div>
+        </div>
+      </div>
+
       <div className="form-header">
         <div className="form-icon">
           <i className="fa fa-paw"></i>
         </div>
-        <h2>Post a Pet for Adoption</h2>
+        <h2>{formStep === 1 ? 'Add Your Pet Details' : 'Contact Information'}</h2>
         <p className="form-subheading">
-          Share details about your pet to help them find their forever home
+          {formStep === 1 
+            ? 'Share details about your pet to help them find their forever home' 
+            : 'Provide your contact information for potential adopters'
+          }
         </p>
       </div>
 
       <div className="form-container">
-        <div className="form-image">
-          <img src={petPlaceholder} alt="Pet Looking for a Home" />
-        </div>
-
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className="submission-form">
-          <div className="form-section">
-            <h3>Pet Information</h3>
-            
-            <div className="input-group">
-              <div className="input-box">
-                <label>Pet Name <span className="required">*</span></label>
-                <input 
-                  type="text" 
-                  value={name} 
-                  onChange={(e) => setName(e.target.value)} 
-                  placeholder="Enter pet name"
-                />
-              </div>
-
-              <div className="input-box">
-                <label>Pet Age <span className="required">*</span></label>
-                <input 
-                  type="text" 
-                  value={age} 
-                  onChange={(e) => setAge(e.target.value)}
-                  placeholder="E.g. 3 years, 6 months" 
-                />
-              </div>
+        {formStep === 1 && (
+          <>
+            <div className="form-image">
+              <img src={previewUrl || petPlaceholder} alt="Pet Looking for a Home" />
             </div>
 
-            <div className="input-box">
-              <label>Pet Type <span className="required">*</span></label>
-              <select 
-                value={type} 
-                onChange={(event) => setType(event.target.value)}
-                className="type-select"
-              >
-                <option value="None">Select pet type</option>
-                <option value="Dog">Dog</option>
-                <option value="Cat">Cat</option>
-                <option value="Rabbit">Rabbit</option>
-                <option value="Bird">Bird</option>
-                <option value="Fish">Fish</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+            <form className="submission-form">
+              <div className="form-section">
+                <h3>Pet Information</h3>
+                
+                <div className="input-group">
+                  <div className="input-box">
+                    <label>Pet Name <span className="required">*</span></label>
+                    <input 
+                      type="text" 
+                      value={name} 
+                      onChange={(e) => setName(e.target.value)} 
+                      placeholder="Enter pet name"
+                      className={errors.name ? "error-input" : ""}
+                    />
+                    {errors.name && <p className="error-message">{errors.name}</p>}
+                  </div>
 
-            <div className="input-box">
-              <label>Pet Photo <span className="required">*</span></label>
-              <div className="file-upload-container">
-                <label className="file-upload-label">
-                  <span className="file-upload-text">
-                    <i className="fa fa-upload"></i> {fileName || "Choose a Picture"}
-                  </span>
-                  <input className="file-input" type="file" accept="image/*" onChange={handleFileChange} />
-                </label>
-              </div>
-              {previewUrl && (
-                <div className="image-preview">
-                  <img src={previewUrl} alt="Preview" />
+                  <div className="input-box">
+                    <label>Pet Age <span className="required">*</span></label>
+                    <input 
+                      type="text" 
+                      value={age} 
+                      onChange={(e) => setAge(e.target.value)}
+                      placeholder="E.g. 3 years, 6 months"
+                      className={errors.age ? "error-input" : ""} 
+                    />
+                    {errors.age && <p className="error-message">{errors.age}</p>}
+                  </div>
                 </div>
-              )}
-            </div>
 
-            <div className="input-box">
-              <label>Location <span className="required">*</span></label>
-              <LocationPicker setLastSeenLocation={setArea} /> 
-            </div>
+                <div className="input-box">
+                  <label>Pet Type <span className="required">*</span></label>
+                  <select 
+                    value={type} 
+                    onChange={(event) => setType(event.target.value)}
+                    className={`type-select ${errors.type ? "error-input" : ""}`}
+                  >
+                    <option value="None">Select pet type</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Rabbit">Rabbit</option>
+                    <option value="Bird">Bird</option>
+                    <option value="Fish">Fish</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  {errors.type && <p className="error-message">{errors.type}</p>}
+                </div>
 
-            <div className="input-box">
-              <label>Description <span className="required">*</span></label>
-              <textarea 
-                rows="4" 
-                value={justification} 
-                onChange={(e) => setJustification(e.target.value)}
-                placeholder="Describe your pet's personality, habits, and why you're putting them up for adoption"
-              ></textarea>
-            </div>
-          </div>
+                <div className="input-box">
+                  <label>Pet Photo <span className="required">*</span></label>
+                  <div className="file-upload-container">
+                    <label className="file-upload-label">
+                      <span className="file-upload-text">
+                        <i className="fa fa-upload"></i> {fileName || "Choose a Picture"}
+                      </span>
+                      <input 
+                        className="file-input" 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handleFileChange} 
+                      />
+                    </label>
+                  </div>
+                  {errors.picture && <p className="error-message">{errors.picture}</p>}
+                  {previewUrl && (
+                    <div className="image-preview">
+                      <img src={previewUrl} alt="Preview" />
+                    </div>
+                  )}
+                </div>
 
-          <div className="form-section">
-            <h3>Contact Information</h3>
+                <div className="form-actions">
+                  <button type="button" className="next-button" onClick={nextStep}>
+                    Next <i className="fa fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </>
+        )}
 
-            <div className="input-group">
+        {formStep === 2 && (
+          <form onSubmit={handleSubmit} encType="multipart/form-data" className="submission-form">
+            <div className="form-section">
               <div className="input-box">
-                <label>Email <span className="required">*</span></label>
-                <input 
-                  type="text" 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your.email@gmail.com" 
-                  className={emailError ? "error-input" : ""}
-                />
-                {emailError && <p className="error-message">Please provide a valid Gmail address.</p>}
+                <label>Location <span className="required">*</span></label>
+                <LocationPicker setLastSeenLocation={setArea} /> 
+                {errors.area && <p className="error-message">{errors.area}</p>}
               </div>
 
               <div className="input-box">
-                <label>Phone Number <span className="required">*</span></label>
-                <input 
-                  type="tel" 
-                  value={phone} 
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Your contact number" 
-                />
+                <label>Description <span className="required">*</span></label>
+                <textarea 
+                  rows="4" 
+                  value={justification} 
+                  onChange={(e) => setJustification(e.target.value)}
+                  placeholder="Describe your pet's personality, habits, and why you're putting them up for adoption"
+                  className={errors.justification ? "error-input" : ""}
+                ></textarea>
+                {errors.justification && <p className="error-message">{errors.justification}</p>}
               </div>
             </div>
-          </div>
 
-          {formError && <p className="form-error-message">Please fill out all required fields correctly.</p>}
+            <div className="form-section">
+              <h3>Contact Information</h3>
 
-          <button type="submit" className="submit-button" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <div className="submit-spinner"></div>
-            ) : (
-              <>
-                <i className="fa fa-paper-plane"></i> Submit Your Pet
-              </>
-            )}
-          </button>
-        </form>
+              <div className="input-group">
+                <div className="input-box">
+                  <label>Email <span className="required">*</span></label>
+                  <input 
+                    type="text" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your.email@gmail.com" 
+                    className={errors.email ? "error-input" : ""}
+                  />
+                  {errors.email && <p className="error-message">{errors.email}</p>}
+                </div>
+
+                <div className="input-box">
+                  <label>Phone Number <span className="required">*</span></label>
+                  <input 
+                    type="tel" 
+                    value={phone} 
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Your contact number"
+                    className={errors.phone ? "error-input" : ""} 
+                  />
+                  {errors.phone && <p className="error-message">{errors.phone}</p>}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button type="button" className="back-button" onClick={prevStep}>
+                <i className="fa fa-arrow-left"></i> Back
+              </button>
+              <button type="submit" className="submit-button" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <div className="submit-spinner"></div>
+                ) : (
+                  <>
+                    <i className="fa fa-paper-plane"></i> Submit Your Pet
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
 
       {showPopup && (

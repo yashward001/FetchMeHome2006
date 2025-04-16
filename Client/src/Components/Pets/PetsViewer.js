@@ -151,15 +151,15 @@ const PetsViewer = (props) => {
             <h3 className="pet-name">{props.pet.name}</h3>
             <div className="pet-details">
               <div className="pet-detail">
-                <span className="pet-detail-icon type-icon"></span>
+                <i className="fa fa-paw pet-detail-icon"></i>
                 <span className="pet-detail-label">{props.pet.type}</span>
               </div>
               <div className="pet-detail">
-                <span className="pet-detail-icon age-icon"></span>
+                <i className="fa fa-birthday-cake pet-detail-icon"></i>
                 <span className="pet-detail-label">{props.pet.age}</span>
               </div>
               <div className="pet-detail">
-                <span className="pet-detail-icon location-icon"></span>
+                <i className="fa fa-map-marker pet-detail-icon"></i>
                 <span className="pet-detail-label">{props.pet.area}</span>
               </div>
             </div>

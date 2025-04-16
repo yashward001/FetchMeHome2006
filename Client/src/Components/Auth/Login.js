@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "../../Styles/Login.css";
 import avatar from "../../Assets/cat.jpg";
+import pawprintIcon from "../../Assets/catlogin.jpg"; // Add this to your Assets folder
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -64,6 +65,10 @@ const Login = () => {
       <div className="login-container">
         <div className="login-left">
           <div className="login-welcome">
+            <div className="brand-logo">
+              <img src={pawprintIcon} alt="PawFinds Logo" className="paw-icon" />
+              <h2 className="brand-name">FetchMeHome</h2>
+            </div>
             <h1>Welcome Back!</h1>
             <p>Log in to continue your journey in pet adoption and recovery</p>
             <div className="login-features">
@@ -127,6 +132,16 @@ const Login = () => {
                 />
               </div>
               
+              <div className="remember-forgot">
+                <div className="remember-me">
+                  <input type="checkbox" id="remember" />
+                  <label htmlFor="remember">Remember me</label>
+                </div>
+                <div className="forgot-password">
+                  <a href="/forgot-password">Forgot Password?</a>
+                </div>
+              </div>
+              
               <button type="submit" className="login-button" disabled={isLoading}>
                 {isLoading ? (
                   <div className="spinner"></div>
@@ -135,12 +150,16 @@ const Login = () => {
                 )}
               </button>
               
+              <div className="login-divider">
+                <span>OR</span>
+              </div>
+              
               <button 
                 type="button" 
                 className="admin-login-button" 
                 onClick={() => navigate("/admin")}
               >
-                Login as Admin
+                <i className="fa fa-shield"></i> Login as Admin
               </button>
             </form>
             
