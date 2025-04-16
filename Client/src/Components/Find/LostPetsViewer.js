@@ -114,6 +114,29 @@ const LostPetsViewer = ({ pet }) => {
     return <span className={badgeClass}>{status}</span>;
   };
 
+  // Close modal when clicking outside
+  const handleCloseModal = (e) => {
+    if (e.target.classList.contains('modal-overlay')) {
+      setShowUploadPopup(false);
+      setShowDetails(false);
+      setImagePreview(null);
+    }
+  };
+
+  useEffect(() => {
+    // Add body class when modal is open to prevent scrolling
+    if (showUploadPopup || showDetails) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    
+    // Cleanup function to ensure body class is removed
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [showUploadPopup, showDetails]);
+
   return (
     <div className="lost-pet-card">
       {/* Status Badge */}
@@ -171,7 +194,7 @@ const LostPetsViewer = ({ pet }) => {
       
       {/* Upload Image Popup */}
       {showUploadPopup && (
-        <div className="modal-overlay" onClick={() => setShowUploadPopup(false)}>
+        <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Report Found Pet</h3>
@@ -267,9 +290,9 @@ const LostPetsViewer = ({ pet }) => {
         </div>
       )}
       
-      {/* Pet Details Popup */}
+      {/* Pet Details Popup - fixed z-index */}
       {showDetails && (
-        <div className="modal-overlay" onClick={() => setShowDetails(false)}>
+        <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal-container details-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>{pet.name}</h3>

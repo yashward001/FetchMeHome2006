@@ -22,6 +22,20 @@ const PetsViewer = (props) => {
     }
   }, []);
 
+  // Add body class control for modals
+  useEffect(() => {
+    if (showPopup || showReport || showDetails) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    
+    // Cleanup function
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [showPopup, showReport, showDetails]);
+
   const openPopup = (pet) => {
     if (!isLoggedIn) {
       alert("Please log in to show interest in adopting this pet");
@@ -121,6 +135,15 @@ const PetsViewer = (props) => {
   const openDetailsModal = () => {
     setShowDetails(true);
   };
+  
+  // Handle clicking outside modals to close them
+  const handleOverlayClick = (e) => {
+    if (e.target.classList.contains('modal-overlay')) {
+      if (showPopup) closePopup();
+      if (showReport) closeReportModal();
+      if (showDetails) setShowDetails(false);
+    }
+  };
 
   return (
     <div className="pet-card">
@@ -194,7 +217,7 @@ const PetsViewer = (props) => {
 
       {/* Adoption Form Popup */}
       {showPopup && (
-        <div className="modal-overlay">
+        <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-container">
             <div className="modal-header">
               <h2>Adoption Application</h2>
@@ -211,7 +234,7 @@ const PetsViewer = (props) => {
 
       {/* Report Listing Modal */}
       {showReport && (
-        <div className="modal-overlay">
+        <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-container report-modal">
             <div className="modal-header">
               <h2>Report This Listing</h2>
@@ -253,8 +276,8 @@ const PetsViewer = (props) => {
       )}
 
       {/* Pet Details Modal */}
-      {showDetails && props.pet && (
-        <div className="modal-overlay" onClick={() => setShowDetails(false)}>
+      {showDetails && (
+        <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-container details-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{props.pet.name}</h2>
