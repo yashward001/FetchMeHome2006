@@ -171,8 +171,8 @@ const LostPetsViewer = ({ pet }) => {
       
       {/* Upload Image Popup */}
       {showUploadPopup && (
-        <div className="modal-overlay">
-          <div className="modal-container">
+        <div className="modal-overlay" onClick={() => setShowUploadPopup(false)}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Report Found Pet</h3>
               <button className="modal-close" onClick={() => {
@@ -269,8 +269,8 @@ const LostPetsViewer = ({ pet }) => {
       
       {/* Pet Details Popup */}
       {showDetails && (
-        <div className="modal-overlay">
-          <div className="modal-container details-modal">
+        <div className="modal-overlay" onClick={() => setShowDetails(false)}>
+          <div className="modal-container details-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>{pet.name}</h3>
               <button className="modal-close" onClick={() => setShowDetails(false)}>

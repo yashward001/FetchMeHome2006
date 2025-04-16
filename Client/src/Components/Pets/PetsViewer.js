@@ -253,9 +253,9 @@ const PetsViewer = (props) => {
       )}
 
       {/* Pet Details Modal */}
-      {showDetails && (
-        <div className="modal-overlay">
-          <div className="modal-container details-modal">
+      {showDetails && props.pet && (
+        <div className="modal-overlay" onClick={() => setShowDetails(false)}>
+          <div className="modal-container details-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{props.pet.name}</h2>
               <button className="modal-close" onClick={() => setShowDetails(false)}>
